@@ -1,0 +1,8 @@
+ingress:
+  enabled: true
+  annotations:
+  hosts:
+    - host: athens-proxy.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific

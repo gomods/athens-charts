@@ -15,6 +15,9 @@ image:
   pullSecrets: []
   #  - name: name-of-secret
 
+  ## Determine if the image should run as root or user `athens`
+  runAsNonRoot: false
+
 livenessProbe:
   failureThreshold: 3
   periodSeconds: 10

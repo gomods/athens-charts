@@ -14,3 +14,14 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Determine the home directory of the current user.
+*/}}
+{{- define "home" -}}
+{{- if not .Values.image.runAsNonRoot -}}
+/root
+{{- else -}}
+/home/athens
+{{- end -}}
+{{- end -}}

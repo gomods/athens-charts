@@ -14,4 +14,7 @@ On Artifact Hub: https://artifacthub.io/packages/search?org=gomods
 * See [Contributing](CONTRIBUTING.md)
 
 ### Publish new chart version
-Change the version in `Chart.yaml`, when the change is merged to main, it will trigger creating a release.
+Change the version in `Chart.yaml`. When the change is merged to main, it will trigger creating a release.
+
+A version bump is not enforced, so changes are collected on branch `main` and only released when the version of 
+the chart is changed.

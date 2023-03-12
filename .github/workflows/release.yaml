@@ -1,8 +1,12 @@
 name: Helm Charts
 on:
-  push:
+  workflow_run:
+    workflows:
+      - "Test Chart"
     branches:
       - main
+    types:
+      - completed
 
 jobs:
   release:

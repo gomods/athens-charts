@@ -64,14 +64,16 @@ storage:
       accessMode: ReadWriteOnce
       size: 4Gi
   mongo:
-    # you must set this on the command line when you run 'helm install'
-    # for example, you need to run 'helm install --set storage.mongo.url=myurl ...'
-    url: "SET THIS ON THE COMMAND LINE"
+    url: ""
   s3:
     # you must set s3 bucket and region when running 'helm install'
     region: ""
     bucket: ""
-    useDefaultConfiguration: true
+    useDefaultConfiguration: false
+    forcePathStyle: false
+    accessKey: ""
+    secretKey: ""
+    sessionToken: ""
   minio:
     # All these variables needs to be set when configuring athens to run with minio backend
     endpoint: ""
@@ -79,8 +81,8 @@ storage:
     secretKey: ""
     bucket: ""
   gcp:
-  # For more information, see:
-  # https://docs.gomods.io/install/install-on-kubernetes/#google-cloud-storage
+    # For more information, see:
+    # https://docs.gomods.io/install/install-on-kubernetes/#google-cloud-storage
     # you must set gcp projectID and bucket when running 'helm install'
     projectID: ""
     bucket: ""

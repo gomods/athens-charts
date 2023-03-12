@@ -74,23 +74,22 @@ spec:
             port: 3000
         env:
         - name: ATHENS_GOGET_WORKERS
-        {{- if .Values.goGetWorkers }}
           value: {{ .Values.goGetWorkers | quote }}
-        {{- else }}
-          value: "3"
-        {{- end }}
         {{- if .Values.configEnvVars }}
         {{- toYaml .Values.configEnvVars | nindent 8 }}
         {{- end }}
         - name: ATHENS_STORAGE_TYPE
           value: {{ .Values.storage.type | quote }}
-        {{- if eq .Values.storage.type "disk"}}
+{{- if eq .Values.storage.type "disk"}}
         - name: ATHENS_DISK_STORAGE_ROOT
           value: {{ .Values.storage.disk.storageRoot | quote }}
-        {{- else if eq .Values.storage.type "mongo"}}
+{{- else if eq .Values.storage.type "mongo"}}
         - name: ATHENS_MONGO_STORAGE_URL
-          value: {{ .Values.storage.mongo.url | quote }}
-        {{- else if eq .Values.storage.type "s3" }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}-secret
+              key: ATHENS_MONGO_STORAGE_URL
+{{- else if eq .Values.storage.type "s3" }}
         - name: AWS_REGION
           value: {{ .Values.storage.s3.region | quote }}
         - name: ATHENS_S3_BUCKET_NAME
@@ -98,46 +97,64 @@ spec:
         - name: AWS_USE_DEFAULT_CONFIGURATION
           value: {{ .Values.storage.s3.useDefaultConfiguration | quote }}
         - name: AWS_FORCE_PATH_STYLE
-          value: {{ .Values.storage.s3.ForcePathStyle | quote }}
-        {{- if .Values.storage.s3.access_key_id }}
+          value: {{ .Values.storage.s3.forcePathStyle | quote }}
+        {{- if .Values.storage.s3.accessKey }}
         - name: AWS_ACCESS_KEY_ID
-          value: {{ .Values.storage.s3.access_key_id | quote }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}-secret
+              key: AWS_ACCESS_KEY_ID
         {{- end }}
-        {{- if .Values.storage.s3.secret_access_key }}
+        {{- if .Values.storage.s3.secretKey }}
         - name: AWS_SECRET_ACCESS_KEY
-          value: {{ .Values.storage.s3.secret_access_key | quote }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}-secret
+              key: AWS_SECRET_ACCESS_KEY
         {{- end }}
-        {{- if .Values.storage.s3.session_token }}
+        {{- if .Values.storage.s3.sessionToken }}
         - name: AWS_SESSION_TOKEN
-          value: {{ .Values.storage.s3.session_token | quote }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}-secret
+              key: AWS_SESSION_TOKEN
         {{- end }}
-        {{- else if eq .Values.storage.type "gcp"}}
+{{- else if eq .Values.storage.type "gcp"}}
         - name: GOOGLE_CLOUD_PROJECT
           value: {{ .Values.storage.gcp.projectID | quote }}
         - name: ATHENS_STORAGE_GCP_BUCKET
           value: {{ .Values.storage.gcp.bucket | quote }}
         {{- if .Values.storage.gcp.serviceAccount }}
         - name: ATHENS_STORAGE_GCP_JSON_KEY
-          value: {{ .Values.storage.gcp.serviceAccount | b64enc | quote }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}-secret
+              key: ATHENS_STORAGE_GCP_JSON_KEY
         {{- end }}
-        {{- else if eq .Values.storage.type "minio" }}
+{{- else if eq .Values.storage.type "minio" }}
         {{- if .Values.storage.minio.endpoint }}
         - name: ATHENS_MINIO_ENDPOINT
           value: {{ .Values.storage.minio.endpoint | quote }}
         {{- end }}
         {{- if .Values.storage.minio.accessKey }}
         - name: ATHENS_MINIO_ACCESS_KEY_ID
-          value: {{ .Values.storage.minio.accessKey | quote }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}-secret
+              key: ATHENS_MINIO_ACCESS_KEY_ID
         {{- end }}
         {{- if .Values.storage.minio.secretKey }}
         - name: ATHENS_MINIO_SECRET_ACCESS_KEY
-          value: {{ .Values.storage.minio.secretKey | quote }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}-secret
+              key: ATHENS_MINIO_SECRET_ACCESS_KEY
         {{- end }}
         {{- if .Values.storage.minio.bucket }}
         - name: ATHENS_MINIO_BUCKET_NAME
           value: {{ .Values.storage.minio.bucket | quote }}
         {{- end }}
-        {{- end }}
+{{- end }}
         {{- if .Values.netrc.enabled }}
         - name: ATHENS_NETRC_PATH
           value: "/etc/netrc/.netrc"

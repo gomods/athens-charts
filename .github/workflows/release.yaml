@@ -1,13 +1,18 @@
 name: Helm Charts
 on:
-  push:
+  workflow_run:
+    workflows:
+      - "Test Chart"
     branches:
       - main
+    types:
+      - completed
 
 jobs:
   release:
     name: Publish Helm Chart
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: write
     steps:

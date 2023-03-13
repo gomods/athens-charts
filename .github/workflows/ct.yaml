@@ -1,4 +1,4 @@
-name: Helm Charts
+name: Test Chart
 on:
   push:
     branches:

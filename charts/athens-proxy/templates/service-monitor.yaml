@@ -1,0 +1,38 @@
+{{- if .Values.metrics.serviceMonitor.enabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    prometheus: default
+  annotations:
+    {{- toYaml .Values.service.annotations | nindent 4 }}
+  name: {{ template "fullname" . }}
+  {{- if .Values.metrics.serviceMonitor.namespace }}
+  namespace: {{ .Values.metrics.serviceMonitor.namespace }}
+  {{- end }}
+spec:
+  endpoints:
+  - path: /metrics
+    port: http
+    {{- if .Values.basicAuth.enabled }}
+    basicAuth:
+      password:
+        name: {{ .Values.basicAuth.secretName }}
+        key: {{ .Values.basicAuth.passwordSecretKey }}
+      username:
+        name: {{ .Values.basicAuth.secretName }}
+        key: {{ .Values.basicAuth.usernameSecretKey }}
+    {{- end }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+      release: "{{ .Release.Name }}"
+{{- end }}

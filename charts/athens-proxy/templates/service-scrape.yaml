@@ -9,8 +9,10 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
     prometheus: default
+  {{- with .Values.service.annotations }}
   annotations:
-    {{- toYaml .Values.service.annotations | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   name: {{ template "fullname" . }}
   {{- if .Values.metrics.serviceScrape.namespace }}
   namespace: {{ .Values.metrics.serviceScrape.namespace }}

@@ -8,6 +8,7 @@ on:
       types: [opened, reopened, synchronize]
       paths:
           - "charts/**"
+          - ".github/workflows/**"
 
 jobs:
   test:

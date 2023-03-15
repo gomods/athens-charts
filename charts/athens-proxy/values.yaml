@@ -157,6 +157,19 @@ sshGitServers: {}
 
 goGetWorkers: 3
 
+metrics:
+  # create ServiceMonitor for prometheus
+  serviceMonitor:
+    enabled: false
+    # namespace: "monitoring"
+    # labels:
+    #   prometheus: default
+
+  # create VMServiceScrape for victoria
+  serviceScrape:
+    enabled: false
+    # namespace: "monitoring"
+
 serviceAccount:
   create: true
   annotations: {}

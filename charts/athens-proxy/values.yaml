@@ -146,14 +146,16 @@ sshGitServers: {}
   ## to enable uncomment lines with single hash below
   ## hostname of the git server
   # - host: git.example.com
-    ## ssh username
-  #  user: git
-    ## ssh private key for the user
-  #  privateKey: |
-  #    -----BEGIN RSA PRIVATE KEY-----
-  #    -----END RSA PRIVATE KEY-----
-    ## ssh port
-  #  port: 22
+  ## https path, "/scm" for bitbucket
+  #   path: ""
+  ## ssh username
+  #   user: git
+  ## ssh private key for the user
+  #   privateKey: |
+  #     -----BEGIN RSA PRIVATE KEY-----
+  #     -----END RSA PRIVATE KEY-----
+  ## ssh port
+  #   port: 22
 
 goGetWorkers: 3
 

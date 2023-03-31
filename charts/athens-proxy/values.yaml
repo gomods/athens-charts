@@ -35,9 +35,6 @@ service:
   ## from within the cluster. To expose externally, consider a "NodePort" or "LoadBalancer" service.
   type: ClusterIP
   ## Further configuration if service is of type "NodePort"
-  nodePort:
-    ## Available port in allowable range (e.g. 30000 - 32767 on minikube)
-    port: 30080
 
 ingress:
   enabled: false

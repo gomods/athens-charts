@@ -18,9 +18,6 @@ spec:
     port: {{ .Values.service.servicePort }}
     targetPort: 3000
     protocol: TCP
-    {{- if eq .Values.service.type "NodePort" }}
-    nodePort: {{ .Values.service.nodePort.port }}
-    {{- end }}
   selector:
     app: {{ template "fullname" . }}
     release: "{{ .Release.Name }}"

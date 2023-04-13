@@ -46,14 +46,20 @@ spec:
           command:
             - sh
             - -c
-          args: ["cp /root/.ssh/id_rsa* /ssh-keys && chmod 400 /ssh-keys/*"]
+          args: ["cp {{ template "home" . }}/.ssh/id_rsa* /ssh-keys && chmod 400 /ssh-keys/*"]
           volumeMounts:
           - name: ssh-keys
             mountPath: /ssh-keys
+          {{- $dot := . -}}
           {{- range $server := .Values.sshGitServers }}
           - name: ssh-git-servers-secret
-            mountPath: /root/.ssh/id_rsa-{{ $server.host }}
+            mountPath: {{ template "home" $dot }}/.ssh/id_rsa-{{ $server.host }}
             subPath: id_rsa-{{ $server.host }}
+          {{- end }}
+          {{- if .Values.image.runAsNonRoot }}
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
           {{- end }}
       {{- end }}
       containers:
@@ -204,10 +210,10 @@ spec:
         {{- end }}
         {{- if .Values.sshGitServers }}
         - name: ssh-git-servers-config
-          mountPath: /root/.ssh/config
+          mountPath: {{ template "home" . }}/.ssh/config
           subPath: ssh_config
         - name: ssh-git-servers-config
-          mountPath: /root/.gitconfig
+          mountPath: {{ template "home" . }}/.gitconfig
           subPath: git_config
         - name: ssh-keys
           mountPath: /ssh-keys
@@ -216,6 +222,11 @@ spec:
         - name: gitconfig
           mountPath: "/etc/gitconfig"
           subPath: "gitconfig"
+        {{- end }}
+        {{- if .Values.image.runAsNonRoot }}
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
         {{- end }}
       {{- with .Values.resources }}
         resources:

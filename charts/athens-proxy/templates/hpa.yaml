@@ -22,10 +22,10 @@ spec:
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
-  {{- with .Values.autoscaling.targetCPUUtilizationPercentage }}
+  {{- with .Values.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
-        name: cpu
+        name: memory
         {{- if eq $apiVersion "autoscaling/v2beta1" }}
         targetAverageUtilization: {{ . }}
         {{- else }}
@@ -34,10 +34,10 @@ spec:
           type: Utilization
         {{- end }}
   {{- end }}
-  {{- with .Values.autoscaling.targetMemoryUtilizationPercentage }}
+  {{- with .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
-        name: memory
+        name: cpu
         {{- if eq $apiVersion "autoscaling/v2beta1" }}
         targetAverageUtilization: {{ . }}
         {{- else }}

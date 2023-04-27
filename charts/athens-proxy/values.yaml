@@ -198,8 +198,8 @@ autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 3
-  targetCPUUtilizationPercentage: 80%
-  targetMemoryUtilizationPercentage: 80%
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
   apiVersionOverride: ""
   # This is only available on HPA apiVersion `autoscaling/v2beta2` and newer
   behavior: {}

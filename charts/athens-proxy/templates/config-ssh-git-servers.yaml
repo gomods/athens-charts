@@ -14,7 +14,7 @@ data:
     Host {{ $server.host }}
       Hostname {{ $server.host }}
       User {{ $server.user }}
-      Port {{ $server.port }}
+      Port {{ $server.port | default 22 }}
       StrictHostKeyChecking no
       IdentityFile /ssh-keys/id_rsa-{{ $server.host }}
     {{- end }}

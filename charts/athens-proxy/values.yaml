@@ -197,6 +197,14 @@ resources: {}
 #    cpu: 100m
 #    memory: 64Mi
 
+intiContainerResources: {}
+#  limits:
+#    cpu: 100m
+#    memory: 64Mi
+#  requests:
+#    cpu: 100m
+#    memory: 64Mi
+
 autoscaling:
   # enable Horizontal Pod Autoscaling
   enabled: false

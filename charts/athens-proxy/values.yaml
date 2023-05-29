@@ -159,6 +159,10 @@ sshGitServers: {}
   #     -----END RSA PRIVATE KEY-----
   ## ssh port
   #   port: 22
+  ## ssh private key from the existing secret (to be added separately in "Secret" Resource)
+  #   existingSecret:
+  #     name: ssh-keys
+  #     subPath: secret.id_rsa
 
 goGetWorkers: 3
 

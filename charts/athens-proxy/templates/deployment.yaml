@@ -52,9 +52,15 @@ spec:
             mountPath: /ssh-keys
           {{- $dot := . -}}
           {{- range $server := .Values.sshGitServers }}
+          {{- if $server.existingSecret }}
+          - name: ssh-git-servers-secret-{{ $server.host | replace "." "-" }}
+            mountPath: "{{ template "home" $dot }}/.ssh/id_rsa-{{ $server.host }}"
+            subPath: {{ $server.existingSecret.subPath | quote }}
+          {{- else }}
           - name: ssh-git-servers-secret
             mountPath: {{ template "home" $dot }}/.ssh/id_rsa-{{ $server.host }}
             subPath: id_rsa-{{ $server.host }}
+          {{- end }}
           {{- end }}
           {{- if .Values.image.runAsNonRoot }}
           securityContext:
@@ -227,6 +233,13 @@ spec:
           mountPath: "/etc/gitconfig"
           subPath: "gitconfig"
         {{- end }}
+        {{- range $server := .Values.sshGitServers }}
+        {{- if $server.existingSecret }}
+        - name: ssh-git-servers-secret-{{ $server.host | replace "." "-" }}
+          mountPath: "/root/.ssh/id_rsa-{{ $server.host }}"
+          subPath: {{ $server.existingSecret.subPath | quote }}
+        {{- end }}
+        {{- end }}
         {{- if .Values.image.runAsNonRoot }}
         securityContext:
           runAsUser: 1000
@@ -263,6 +276,13 @@ spec:
       - name: ssh-git-servers-secret
         secret:
           secretName: {{ template "fullname" . }}-ssh-git-servers
+      {{- range $server := .Values.sshGitServers }}
+      {{- if $server.existingSecret }}
+      - name: ssh-git-servers-secret-{{ $server.host | replace "." "-" }}
+        secret:
+          secretName: {{ $server.existingSecret.name | quote }}
+      {{- end }}
+      {{- end }}
       {{- end }}
       {{- if .Values.gitconfig.enabled }}
       - name: gitconfig

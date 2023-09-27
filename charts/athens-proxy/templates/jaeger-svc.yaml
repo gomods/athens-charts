@@ -4,10 +4,7 @@ kind: Service
 metadata:
   name: {{ template "fullname" . }}-jaeger
   labels:
-    app: {{ template "fullname" . }}-jaeger
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "athens.metaLabels" (dict "appSuffix" "-jaeger" "Values" .Values "Release" .Release "Chart" .Chart) | nindent 4 }}
 spec:
   type: {{ .Values.jaeger.type }}
   ports:

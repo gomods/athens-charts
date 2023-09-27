@@ -4,10 +4,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "fullname" . }}-upstream
   labels:
-    app: {{ template "fullname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "athens.metaLabels" . | nindent 4 }}
 data:
   FilterForUpstreamProxy: |-
     # FilterFile for fetching modules directly from upstream proxy

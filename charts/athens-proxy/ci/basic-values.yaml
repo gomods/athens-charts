@@ -6,3 +6,7 @@ ingress:
       paths:
         - path: /
           pathType: ImplementationSpecific
+jaeger:
+  enabled: true
+extraLabels:
+  athensIs: "awesome"

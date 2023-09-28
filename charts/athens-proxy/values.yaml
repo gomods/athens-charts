@@ -101,6 +101,9 @@ configEnvVars: {}
 # Extra annotations to be added to the athens pods
 annotations: {}
 
+# Extra labels to be added to all resources
+extraLabels: {}
+
 # HTTP basic auth
 basicAuth:
   enabled: false

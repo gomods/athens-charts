@@ -4,10 +4,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "fullname" . }}-ssh-git-servers
   labels:
-    app: {{ template "fullname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "athens.metaLabels" . | nindent 4 }}
 data:
   ssh_config: |
     {{- range $server := .Values.sshGitServers }}

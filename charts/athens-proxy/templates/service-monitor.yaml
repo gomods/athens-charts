@@ -4,10 +4,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: {{ template "fullname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "athens.metaLabels" . | nindent 4 }}
     prometheus: default
   {{- with .Values.service.annotations }}
   annotations:

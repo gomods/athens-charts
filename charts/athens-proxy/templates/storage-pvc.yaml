@@ -4,10 +4,7 @@ apiVersion: v1
 metadata:
   name: {{ template "fullname" . }}-storage
   labels:
-    app: {{ template "fullname" . }}-storage
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "athens.metaLabels" (dict "appSuffix" "-storage" "Values" .Values "Release" .Release "Chart" .Chart) | nindent 4 }}
 spec:
   accessModes:
     - {{ .Values.storage.disk.persistence.accessMode | quote }}

@@ -10,3 +10,6 @@ jaeger:
   enabled: true
 extraLabels:
   athensIs: "awesome"
+securityContext:
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true

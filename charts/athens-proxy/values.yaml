@@ -94,6 +94,16 @@ storage:
     # as GCP figures out internal authentication between products for you.
     serviceAccount: ""
 
+# Container security context configuration (see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#securitycontext-v1-core)
+# This will override the `image.runAsNonRoot` settings in the specified container if `runAsUser` or `runAsGroup` are set
+securityContext: {}
+  # allowPrivilegeEscalation: false
+  # runAsNonRoot: true
+
+initContainerSecurityContext: {}
+  # allowPrivilegeEscalation: false
+  # runAsNonRoot: true
+
 # Extra environment variables to be passed
 # You can add any new ones at the bottom
 configEnvVars: {}

@@ -1,6 +1,6 @@
 apiVersion: v1
 name: athens-proxy
-version: 0.9.1
+version: 0.9.2
 appVersion: v0.13.1
 description: The proxy server for Go modules
 icon: https://raw.githubusercontent.com/gomods/athens/main/docs/static/banner.png

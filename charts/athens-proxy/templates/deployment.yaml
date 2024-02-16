@@ -29,6 +29,9 @@ spec:
         {{- toYaml .Values.annotations | nindent 8 }}
         {{- end }}
     spec:
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName | quote }}
+      {{- end }}
       {{- if .Values.image.runAsNonRoot }}
       securityContext:
         runAsUser: 1000

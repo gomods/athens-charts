@@ -3,5 +3,36 @@
   "extends": [
     "config:recommended"
   ],
-  "enabledManagers": ["helmv3"]
+  "enabledManagers": ["regex"],
+  "regexManagers": [
+    {
+      "description": "Update athens image reference in Chart.yaml",
+      "fileMatch": ["^charts\\/athens-proxy\\/Chart\\.yaml$"],
+      "matchStrings": [
+        "appVersion:\\s+(?<currentValue>.*)"
+      ],
+      "depNameTemplate": "gomods/athens",
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["regex"],
+      "postUpgradeTasks": {
+        "commands": [
+          "version=$(grep '^version:' {{{parentDir}}}/charts/athens-proxy/Chart.yaml | awk '{print $2}')",
+          "major=$(echo $version | cut -d. -f1)",
+          "minor=$(echo $version | cut -d. -f2)",
+          "patch=$(echo $version | cut -d. -f3)",
+          "minor=$(expr $minor + 1)",
+          "echo \"New version: $version\"",
+          "sed -i \"s/^version:.*/version: ${major}.${minor}.${patch}/g\" {{{parentDir}}}/charts/athens-proxy/Chart.yaml"
+        ],
+        "fileFilters": ["**/Chart.yaml"],
+        "executionMode": "branch"
+      }
+    }
+  ],
+  "allowPostUpgradeCommandTemplating": true,
+  "allowedPostUpgradeCommands":        ["^.*"]
 }

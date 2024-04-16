@@ -3,7 +3,7 @@
   "extends": [
     "config:recommended"
   ],
-  "enabledManagers": ["regex"],
+  "enabledManagers": ["regex", "helmv3"],
   "regexManagers": [
     {
       "description": "Update athens image reference in Chart.yaml",
@@ -32,7 +32,5 @@
         "executionMode": "branch"
       }
     }
-  ],
-  "allowPostUpgradeCommandTemplating": true,
-  "allowedPostUpgradeCommands":        ["^.*"]
+  ]
 }

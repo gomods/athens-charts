@@ -39,7 +39,9 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
       {{- end }}
+      {{- if .Values.serviceAccount.create }}
       serviceAccount: {{ template "fullname" . }}
+      {{- end }}
       {{- if .Values.image.pullSecrets }}
       imagePullSecrets:
         {{- toYaml .Values.image.pullSecrets | nindent 8 }}

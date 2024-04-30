@@ -40,7 +40,7 @@ spec:
         runAsGroup: 1000
       {{- end }}
       {{- if .Values.serviceAccount.create }}
-      serviceAccount: {{ template "fullname" . }}
+      serviceAccountName: {{ template "fullname" . }}
       {{- end }}
       {{- if .Values.image.pullSecrets }}
       imagePullSecrets:

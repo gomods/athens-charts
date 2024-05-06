@@ -19,4 +19,9 @@ config:
     NetworkMode = "strict"
     StorageType = "memory"
     ShutdownTimeout = 5
-    Timeout: 60
+    Timeout = 60
+    [Storage]
+      [Storage.Disk]
+      RootPath = /var/lib/athens
+    [Index]
+      # no config needed

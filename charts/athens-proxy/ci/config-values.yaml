@@ -19,5 +19,4 @@ config:
     NetworkMode = "strict"
     StorageType = "memory"
     ShutdownTimeout = 5
-    TimeoutConf:
-      Timeout: 60
+    Timeout: 60

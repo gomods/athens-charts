@@ -218,7 +218,7 @@ config:
   # existingSecret:
   #   name: athens-config
   #   subPath: config.toml
-  ## Plain text config.toml
+  ## Plain text config.toml (see https://github.com/gomods/athens/blob/main/config.dev.toml)
   # toml: |-
   #   # config.toml contents
   #   # can use helm templates {{ .Values.xxx }}

@@ -10,3 +10,9 @@ config:
 #    subPath: bar.toml
   toml: |-
     # custom config.toml enabled: {{ .Values.config.enabled }}
+    GoBinary = "go"
+    GoEnv = "development"
+    ProtocolWorkers = 30
+    LogLevel = "debug"
+    CloudRuntime = "none"
+    NetworkMode = "strict"

@@ -1,0 +1,11 @@
+{{- if and .Values.config.enabled (not .Values.config.existingSecret) -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}-config
+  labels:
+    {{- include "athens.metaLabels" . | nindent 4 }}
+data:
+  config.toml: |-
+    {{- tpl .Values.config.toml . | nindent 4 }}
+{{- end -}}

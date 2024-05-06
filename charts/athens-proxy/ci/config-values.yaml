@@ -1,0 +1,17 @@
+sshGitServers:
+  - host: git1.example.com
+    user: git
+    privateKey: "invalid key"
+  - host: git2.example.com
+    user: git
+    existingSecret:
+      name: ssh-keys
+      subPath: secret.id_rsa
+
+config:
+  enabled: true
+#  existingSecret:
+#    name: foo
+#    subPath: bar.toml
+  toml: |-
+    # custom config.toml enabled: {{ .Values.config.enabled }}

@@ -209,6 +209,20 @@ sshGitServers: []
 # -- Specify the number of go workers
 goGetWorkers: 3
 
+## Provide a custom config.toml file to Athens
+config:
+  enabled: false
+  ## Mount path of config.toml
+  path: /config/config.toml
+  ## Use config.toml from an existing secret
+  # existingSecret:
+  #   name: athens-config
+  #   subPath: config.toml
+  ## Plain text config.toml
+  # toml: |-
+  #   # config.toml contents
+  #   # can use helm templates {{ .Values.xxx }}
+
 metrics:
   serviceMonitor:
     # -- Create a ServiceMonitor for prometheus

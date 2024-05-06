@@ -11,17 +11,22 @@ config:
   toml: |-
     # custom config.toml enabled: {{ .Values.config.enabled }}
     GoBinary = "go"
+    GoBinaryEnvVars = ["GOPROXY=direct"]
     GoEnv = "development"
+    GoGetDir = ""
     GoGetWorkers = 3
     ProtocolWorkers = 10
     LogLevel = "debug"
     LogFormat = "plain"
+    DownloadMode = "sync"
     NetworkMode = "strict"
-    StorageType = "memory"
+    Port = ":3000"
+    StorageType = "disk"
     IndexType = "none"
     ShutdownTimeout = 5
     Timeout = 60
     [Storage]
-      # no config needed
+      [Storage.Disk]
+      RootPath = "/var/lib/athens"
     [Index]
       # no config needed

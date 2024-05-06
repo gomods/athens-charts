@@ -18,10 +18,10 @@ config:
     LogFormat = "plain"
     NetworkMode = "strict"
     StorageType = "memory"
+    IndexType = "none"
     ShutdownTimeout = 5
     Timeout = 60
     [Storage]
-      [Storage.Disk]
-      RootPath = /var/lib/athens
+      # no config needed
     [Index]
       # no config needed

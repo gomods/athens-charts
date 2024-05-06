@@ -12,7 +12,12 @@ config:
     # custom config.toml enabled: {{ .Values.config.enabled }}
     GoBinary = "go"
     GoEnv = "development"
-    ProtocolWorkers = 30
+    GoGetWorkers = 3
+    ProtocolWorkers = 10
     LogLevel = "debug"
-    CloudRuntime = "none"
+    LogFormat = "plain"
     NetworkMode = "strict"
+    StorageType = "memory"
+    ShutdownTimeout = 5
+    TimeoutConf:
+      Timeout: 60

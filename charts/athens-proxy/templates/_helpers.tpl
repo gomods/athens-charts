@@ -59,3 +59,11 @@ Determine the home directory of the current user.
 /home/athens
 {{- end -}}
 {{- end -}}
+
+{{- define "serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+{{ default (include "fullname" .) .Values.serviceAccount.name | trunc 63 | trimSuffix "-" }}
+{{- else -}}
+{{ default "default" .Values.serviceAccount.name | trunc 63 | trimSuffix "-" }}
+{{- end -}}
+{{- end -}}

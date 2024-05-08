@@ -39,7 +39,7 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
       {{- end }}
-      serviceAccount: {{ .Values.serviceAccount.name | default ( include "fullname" . ) }}
+      serviceAccountName: {{ include "serviceAccountName" . | quote }}
       {{- if .Values.image.pullSecrets }}
       imagePullSecrets:
         {{- toYaml .Values.image.pullSecrets | nindent 8 }}

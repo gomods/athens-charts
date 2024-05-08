@@ -99,11 +99,13 @@ priorityClassName: ""
 
 # Container security context configuration (see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#securitycontext-v1-core)
 # This will override the `image.runAsNonRoot` settings in the specified container if `runAsUser` or `runAsGroup` are set
-securityContext: {}
+securityContext:
+  {}
   # allowPrivilegeEscalation: false
   # runAsNonRoot: true
 
-initContainerSecurityContext: {}
+initContainerSecurityContext:
+  {}
   # allowPrivilegeEscalation: false
   # runAsNonRoot: true
 
@@ -160,7 +162,8 @@ jaeger:
   # for example, you need to run 'helm install --set jaeger.url=myurl ...'
   url: "SET THIS ON THE COMMAND LINE"
 
-sshGitServers: {}
+sshGitServers:
+  {}
   ## Private git servers over ssh
   ## to enable uncomment lines with single hash below
   ## hostname of the git server
@@ -198,6 +201,7 @@ metrics:
 serviceAccount:
   create: true
   annotations: {}
+  # name: "athens-proxy"
 
 nodeSelector: {}
 
@@ -230,7 +234,8 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
   apiVersionOverride: ""
   # This is only available on HPA apiVersion `autoscaling/v2beta2` and newer
-  behavior: {}
+  behavior:
+    {}
     # scaleDown:
     #  stabilizationWindowSeconds: 300
     #  policies:

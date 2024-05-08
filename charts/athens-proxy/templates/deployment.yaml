@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ include "fullname" . }}
   labels:
     {{- include "athens.metaLabels" . | nindent 4 }}
 spec:
@@ -17,7 +17,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: {{ template "fullname" . }}
+      app: {{ include "fullname" . }}
       release: "{{ .Release.Name }}"
   template:
     metadata:
@@ -39,9 +39,7 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
       {{- end }}
-      {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ template "fullname" . }}
-      {{- end }}
+      serviceAccount: {{ .Values.serviceAccount.name | default ( include "fullname" . ) }}
       {{- if .Values.image.pullSecrets }}
       imagePullSecrets:
         {{- toYaml .Values.image.pullSecrets | nindent 8 }}
@@ -53,7 +51,7 @@ spec:
           command:
             - sh
             - -c
-          args: ["cp {{ template "home" . }}/.ssh/id_rsa* /ssh-keys && chmod 400 /ssh-keys/*"]
+          args: ["cp {{ include "home" . }}/.ssh/id_rsa* /ssh-keys && chmod 400 /ssh-keys/*"]
           volumeMounts:
           - name: ssh-keys
             mountPath: /ssh-keys
@@ -61,11 +59,11 @@ spec:
           {{- range $server := .Values.sshGitServers }}
           {{- if $server.existingSecret }}
           - name: ssh-git-servers-secret-{{ $server.host | replace "." "-" }}
-            mountPath: "{{ template "home" $dot }}/.ssh/id_rsa-{{ $server.host }}"
+            mountPath: "{{ include "home" $dot }}/.ssh/id_rsa-{{ $server.host }}"
             subPath: {{ $server.existingSecret.subPath | quote }}
           {{- else }}
           - name: ssh-git-servers-secret
-            mountPath: {{ template "home" $dot }}/.ssh/id_rsa-{{ $server.host }}
+            mountPath: {{ include "home" $dot }}/.ssh/id_rsa-{{ $server.host }}
             subPath: id_rsa-{{ $server.host }}
           {{- end }}
           {{- end }}
@@ -79,7 +77,7 @@ spec:
           {{- end }}
       {{- end }}
       containers:
-      - name: {{ template "fullname" . }}
+      - name: {{ include "fullname" . }}
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         livenessProbe:
@@ -109,7 +107,7 @@ spec:
         - name: ATHENS_MONGO_STORAGE_URL
           valueFrom:
             secretKeyRef:
-              name: {{ template "fullname" . }}-secret
+              name: {{ include "fullname" . }}-secret
               key: ATHENS_MONGO_STORAGE_URL
 {{- else if eq .Values.storage.type "s3" }}
         - name: AWS_REGION
@@ -124,21 +122,21 @@ spec:
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
-              name: {{ template "fullname" . }}-secret
+              name: {{ include "fullname" . }}-secret
               key: AWS_ACCESS_KEY_ID
         {{- end }}
         {{- if .Values.storage.s3.secretKey }}
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: {{ template "fullname" . }}-secret
+              name: {{ include "fullname" . }}-secret
               key: AWS_SECRET_ACCESS_KEY
         {{- end }}
         {{- if .Values.storage.s3.sessionToken }}
         - name: AWS_SESSION_TOKEN
           valueFrom:
             secretKeyRef:
-              name: {{ template "fullname" . }}-secret
+              name: {{ include "fullname" . }}-secret
               key: AWS_SESSION_TOKEN
         {{- end }}
 {{- else if eq .Values.storage.type "gcp"}}
@@ -150,7 +148,7 @@ spec:
         - name: ATHENS_STORAGE_GCP_JSON_KEY
           valueFrom:
             secretKeyRef:
-              name: {{ template "fullname" . }}-secret
+              name: {{ include "fullname" . }}-secret
               key: ATHENS_STORAGE_GCP_JSON_KEY
         {{- end }}
 {{- else if eq .Values.storage.type "minio" }}
@@ -162,14 +160,14 @@ spec:
         - name: ATHENS_MINIO_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
-              name: {{ template "fullname" . }}-secret
+              name: {{ include "fullname" . }}-secret
               key: ATHENS_MINIO_ACCESS_KEY_ID
         {{- end }}
         {{- if .Values.storage.minio.secretKey }}
         - name: ATHENS_MINIO_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: {{ template "fullname" . }}-secret
+              name: {{ include "fullname" . }}-secret
               key: ATHENS_MINIO_SECRET_ACCESS_KEY
         {{- end }}
         {{- if .Values.storage.minio.bucket }}
@@ -226,10 +224,10 @@ spec:
         {{- end }}
         {{- if .Values.sshGitServers }}
         - name: ssh-git-servers-config
-          mountPath: {{ template "home" . }}/.ssh/config
+          mountPath: {{ include "home" . }}/.ssh/config
           subPath: ssh_config
         - name: ssh-git-servers-config
-          mountPath: {{ template "home" . }}/.gitconfig
+          mountPath: {{ include "home" . }}/.gitconfig
           subPath: git_config
         - name: ssh-keys
           mountPath: /ssh-keys
@@ -258,14 +256,14 @@ spec:
       - name: storage-volume
       {{- if .Values.storage.disk.persistence.enabled }}
         persistentVolumeClaim:
-          claimName: {{ template "fullname" . }}-storage
+          claimName: {{ include "fullname" . }}-storage
       {{- else }}
         emptyDir: {}
       {{- end }}
       {{- if .Values.upstreamProxy.enabled }}
       - name: upstream-config
         configMap:
-          name: {{ template "fullname" . }}-upstream
+          name: {{ include "fullname" . }}-upstream
       {{- end }}
       {{- if .Values.netrc.enabled }}
       - name: netrc
@@ -277,10 +275,10 @@ spec:
         emptyDir: {}
       - name: ssh-git-servers-config
         configMap:
-          name: {{ template "fullname" . }}-ssh-git-servers
+          name: {{ include "fullname" . }}-ssh-git-servers
       - name: ssh-git-servers-secret
         secret:
-          secretName: {{ template "fullname" . }}-ssh-git-servers
+          secretName: {{ include "fullname" . }}-ssh-git-servers
       {{- range $server := .Values.sshGitServers }}
       {{- if $server.existingSecret }}
       - name: ssh-git-servers-secret-{{ $server.host | replace "." "-" }}

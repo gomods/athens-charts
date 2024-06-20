@@ -2,6 +2,33 @@ apiVersion: v1
 entries:
   athens-proxy:
   - apiVersion: v1
+    appVersion: v0.14.1
+    created: "2024-06-20T21:48:44.511266959Z"
+    description: The proxy server for Go modules
+    digest: 06723a8ce7aae4941cef1e63bae6358ef2f45bd39d5571cc5198fc77c9a03964
+    home: https://github.com/gomods/athens-charts
+    icon: https://raw.githubusercontent.com/gomods/athens/main/docs/static/banner.png
+    keywords:
+    - Golang
+    - Package Management
+    - Goproxy
+    - Athens
+    maintainers:
+    - email: rmocius@gmail.com
+      name: rimusz
+    - email: aaron@ecomaz.net
+      name: arschles
+    - email: drpsychick@drsick.net
+      name: DrPsychick
+    - email: nick@wiersma.co.za
+      name: nrwiersma
+    name: athens-proxy
+    sources:
+    - https://github.com/gomods/athens-charts
+    urls:
+    - https://github.com/gomods/athens-charts/releases/download/athens-proxy-0.12.1/athens-proxy-0.12.1.tgz
+    version: 0.12.1
+  - apiVersion: v1
     appVersion: v0.14.0
     created: "2024-05-29T17:20:06.808013147Z"
     description: The proxy server for Go modules
@@ -458,4 +485,4 @@ entries:
     urls:
     - https://github.com/gomods/athens-charts/releases/download/athens-proxy-0.5.7/athens-proxy-0.5.7.tgz
     version: 0.5.7
-generated: "2024-05-29T17:20:06.808176132Z"
+generated: "2024-06-20T21:48:44.511426798Z"

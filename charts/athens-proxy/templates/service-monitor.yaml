@@ -4,8 +4,12 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{- include "athens.metaLabels" . | nindent 4 }}
-    prometheus: default
+    {{- $metaLabels := include "athens.metaLabels" . | fromYaml }}
+    {{- $userLabels := .Values.metrics.serviceMonitor.labels | default dict }}
+    {{- $mergedLabels := merge $userLabels $metaLabels }}
+    {{- range $key, $value := $mergedLabels }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
   {{- with .Values.service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

@@ -1,4 +1,6 @@
-# Athens Proxy Helm Chart
+# Athens Proxy Helm Chart: athens-proxy
+
+![Version: 0.12.2](https://img.shields.io/badge/Version-0.12.2-informational?style=flat-square) ![AppVersion: v0.14.1](https://img.shields.io/badge/AppVersion-v0.14.1-informational?style=flat-square)
 
 ## What is Athens?
 
@@ -8,7 +10,7 @@ Athens provides a repository for [Go Modules](https://github.com/golang/go/wiki/
 
 ## Prerequisites
 
-* Kubernetes 1.10+
+Kubernetes: `>= 1.10`
 
 ## Requirements
 
@@ -25,7 +27,7 @@ $ helm repo add athens https://gomods.github.io/athens-charts
 $ helm repo update
 ```
 
-Next, install the chart with default values to `athens` namespace:  
+Next, install the chart with default values to `athens` namespace: 
 
 ```
 $ helm install athens/athens-proxy -n athens --namespace athens
@@ -33,6 +35,89 @@ $ helm install athens/athens-proxy -n athens --namespace athens
 
 This will deploy a single Athens instance in the `athens` namespace with `disk` storage enabled. Additionally, a `ClusterIP` service will be created.
 
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` |  |
+| annotations | object | `{}` |  |
+| autoscaling.apiVersionOverride | string | `""` |  |
+| autoscaling.behavior | object | `{}` |  |
+| autoscaling.enabled | bool | `false` |  |
+| autoscaling.maxReplicas | int | `3` |  |
+| autoscaling.minReplicas | int | `1` |  |
+| autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| autoscaling.targetMemoryUtilizationPercentage | int | `80` |  |
+| basicAuth.enabled | bool | `false` |  |
+| basicAuth.passwordSecretKey | string | `"password"` |  |
+| basicAuth.secretName | string | `"athens-proxy-basic-auth"` |  |
+| basicAuth.usernameSecretKey | string | `"username"` |  |
+| configEnvVars | object | `{}` |  |
+| extraLabels | object | `{}` |  |
+| gitconfig.enabled | bool | `false` |  |
+| gitconfig.secretKey | string | `"gitconfig"` |  |
+| gitconfig.secretName | string | `"athens-proxy-gitconfig"` |  |
+| goGetWorkers | int | `3` |  |
+| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.pullSecrets | list | `[]` |  |
+| image.registry | string | `"docker.io"` |  |
+| image.repository | string | `"gomods/athens"` |  |
+| image.runAsNonRoot | bool | `false` |  |
+| ingress.annotations | object | `{}` |  |
+| ingress.className | string | `""` |  |
+| ingress.enabled | bool | `false` |  |
+| ingress.hosts | string | `nil` |  |
+| ingress.tls | string | `nil` |  |
+| initContainerSecurityContext | object | `{}` |  |
+| intiContainerResources | object | `{}` |  |
+| jaeger.enabled | bool | `false` |  |
+| jaeger.image.repository | string | `"jaegertracing/all-in-one"` |  |
+| jaeger.image.tag | string | `"latest"` |  |
+| jaeger.type | string | `"ClusterIP"` |  |
+| jaeger.url | string | `"SET THIS ON THE COMMAND LINE"` |  |
+| livenessProbe.failureThreshold | int | `3` |  |
+| livenessProbe.periodSeconds | int | `10` |  |
+| livenessProbe.successThreshold | int | `1` |  |
+| livenessProbe.timeoutSeconds | int | `1` |  |
+| metrics.serviceMonitor.enabled | bool | `false` |  |
+| metrics.serviceScrape.enabled | bool | `false` |  |
+| netrc.enabled | bool | `false` |  |
+| netrc.existingSecret | string | `"netrcsecret"` |  |
+| nodeSelector | object | `{}` |  |
+| priorityClassName | string | `""` |  |
+| replicaCount | int | `1` |  |
+| resources | object | `{}` |  |
+| securityContext | object | `{}` |  |
+| service.annotations | object | `{}` |  |
+| service.nodePort.port | int | `30080` |  |
+| service.servicePort | int | `80` |  |
+| service.type | string | `"ClusterIP"` |  |
+| serviceAccount.annotations | object | `{}` |  |
+| serviceAccount.create | bool | `true` |  |
+| sshGitServers | list | `[]` |  |
+| storage.disk.persistence.accessMode | string | `"ReadWriteOnce"` |  |
+| storage.disk.persistence.enabled | bool | `false` |  |
+| storage.disk.persistence.size | string | `"4Gi"` |  |
+| storage.disk.storageRoot | string | `"/var/lib/athens"` |  |
+| storage.gcp.bucket | string | `""` |  |
+| storage.gcp.projectID | string | `""` |  |
+| storage.gcp.serviceAccount | string | `""` |  |
+| storage.minio.accessKey | string | `""` |  |
+| storage.minio.bucket | string | `""` |  |
+| storage.minio.endpoint | string | `""` |  |
+| storage.minio.secretKey | string | `""` |  |
+| storage.mongo.url | string | `""` |  |
+| storage.s3.accessKey | string | `""` |  |
+| storage.s3.bucket | string | `""` |  |
+| storage.s3.forcePathStyle | bool | `false` |  |
+| storage.s3.region | string | `""` |  |
+| storage.s3.secretKey | string | `""` |  |
+| storage.s3.sessionToken | string | `""` |  |
+| storage.s3.useDefaultConfiguration | bool | `false` |  |
+| storage.type | string | `"disk"` |  |
+| tolerations | list | `[]` |  |
+| upstreamProxy.enabled | bool | `false` |  |
+| upstreamProxy.url | string | `"https://gocenter.io"` |  |
 
 ## Advanced Configuration
 
@@ -66,7 +151,7 @@ configEnvVars:
 One or more of git servers can added to `sshGitServers`, and the corresponding config files (git config and ssh config) and ssh keys will be created. Athens then will use these configs and keys to download the source from the git servers.
 
 ```yaml
-sshGitServers: 
+sshGitServers:
   ## Private git servers over ssh
   ## to enable uncomment lines with single hash below
   ## hostname of the git server

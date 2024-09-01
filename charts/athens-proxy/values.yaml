@@ -1,21 +1,18 @@
-replicaCount: 1
 image:
   registry: docker.io
   repository: gomods/athens
   # Override the chart appVersion and use a specific tag
   # tag: v0.12.0
 
-  ## Specify a imagePullPolicy
-  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
-  ##
+  # -- Specify a imagePullPolicy
+  # ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
   pullPolicy: IfNotPresent
 
-  ## Specify secrets containing credentials for pulling images
+  # -- Specify secrets containing credentials for pulling images
   pullSecrets: []
   #  - name: name-of-secret
 
-  ## Determine if the image should run as root or user `athens`
+  # -- Determines if the image should run as `root` or user `athens`
   runAsNonRoot: false
 
 livenessProbe:
@@ -24,22 +21,26 @@ livenessProbe:
   successThreshold: 1
   timeoutSeconds: 1
 
-## Server Deployment Strategy type
-# strategy:
-#   type: Recreate
+strategy:
+  # -- Using RollingUpdate requires a shared storage
+  type: Recreate
+  # -- Define RollingUpdate params
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 1
 
 service:
-  ## Additional annotations to apply to the service
+  # -- Additional annotations to apply to the service
   annotations: {}
-  ## Port as exposed by the service
+  # -- Port as exposed by the service
   servicePort: 80
-  ## Type of service; valid values are "ClusterIP", "LoadBalancer", and
-  ## "NodePort". "ClusterIP" is sufficient in the case when the Proxy will be used
-  ## from within the cluster. To expose externally, consider a "NodePort" or "LoadBalancer" service.
+  # -- Type of service; valid values are "ClusterIP", "LoadBalancer", and
+  # "NodePort". "ClusterIP" is sufficient in the case when the Proxy will be used
+  # from within the cluster. To expose externally, consider a "NodePort" or "LoadBalancer" service.
   type: ClusterIP
-  ## Further configuration if service is of type "NodePort"
+  # -- Further configuration if service is of type "NodePort"
   nodePort:
-    ## Available port in allowable range (e.g. 30000 - 32767 on minikube)
+    # -- Available port in allowable range (e.g. 30000 - 32767 on minikube)
     port: 30080
 
 ingress:
@@ -57,12 +58,13 @@ ingress:
   tls:
 
 storage:
+  # -- Storage type to use. For a single instance a PV may be sufficient
   type: disk
   disk:
     storageRoot: "/var/lib/athens"
     persistence:
-      ## Note if you use disk.persistence.enabled, replicaCount should be set to 1 unless your access mode is ReadWriteMany
-      ## and strategy type must be Recreate
+      # -- Note if you use disk.persistence.enabled, replicaCount should be set to 1 unless your access mode is ReadWriteMany
+      # and strategy type must be Recreate
       enabled: false
       accessMode: ReadWriteOnce
       size: 4Gi
@@ -94,22 +96,21 @@ storage:
     # as GCP figures out internal authentication between products for you.
     serviceAccount: ""
 
-## Priority class for pod scheduling (see API reference: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass)
+# -- Priority class for pod scheduling (see API reference: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass)
 priorityClassName: ""
 
-# Container security context configuration (see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#securitycontext-v1-core)
+# -- Container security context configuration (see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#securitycontext-v1-core)
 # This will override the `image.runAsNonRoot` settings in the specified container if `runAsUser` or `runAsGroup` are set
-securityContext:
-  {}
+securityContext: {}
   # allowPrivilegeEscalation: false
   # runAsNonRoot: true
 
-initContainerSecurityContext:
-  {}
+# -- Init container security context configuration
+initContainerSecurityContext: {}
   # allowPrivilegeEscalation: false
   # runAsNonRoot: true
 
-# Extra environment variables to be passed
+# -- Extra environment variables to be passed
 # You can add any new ones at the bottom
 configEnvVars: {}
 
@@ -160,7 +161,8 @@ jaeger:
     tag: latest
   # you must set this on the command line when you run 'helm install'
   # for example, you need to run 'helm install --set jaeger.url=myurl ...'
-  url: "SET THIS ON THE COMMAND LINE"
+  # url: "SET THIS ON THE COMMAND LINE"
+  url: ""
 
 sshGitServers: []
   ## Private git servers over ssh
@@ -224,8 +226,12 @@ intiContainerResources: {}
 #    cpu: 100m
 #    memory: 64Mi
 
+
+# -- Sets the number of athens-proxy replicas, unless autoscaling is enabled
+replicaCount: 1
+
 autoscaling:
-  # enable Horizontal Pod Autoscaling
+  # -- Enable Horizontal Pod Autoscaling
   enabled: false
   minReplicas: 1
   maxReplicas: 3

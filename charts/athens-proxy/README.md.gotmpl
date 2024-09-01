@@ -86,3 +86,11 @@ sshGitServers:
     ## ssh port
     port: 22
 ```
+
+## Testing
+
+Using `chart-testing` to lint, install and test the chart on a local Kubernetes (Minikube, Rancher Desktop, ...)
+
+```shell
+ct lint-and-install --all
+```

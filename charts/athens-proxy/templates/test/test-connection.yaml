@@ -10,6 +10,22 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['wget']
-      args: ['{{ include "fullname" . }}:{{ .Values.service.servicePort }}']
+      command: ['sh']
+      args:
+        - '-c'
+        - |
+          sleep 10;
+          wget -O - {{ include "fullname" . }}:{{ .Values.service.servicePort }};
+          sleep 10;
+          wget -O - {{ include "fullname" . }}:{{ .Values.service.servicePort }};
+    {{- if .Values.jaeger.enabled }}
+    - name: wget-jaeger
+      image: busybox
+      command: ['sh']
+      args:
+        - '-c'
+        - |
+          sleep 10;
+          wget -O - http://{{ include "fullname" . }}-jaeger:16686;
+    {{- end }}
   restartPolicy: Never

@@ -43,7 +43,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | annotations | object | `{}` |  |
 | autoscaling.apiVersionOverride | string | `""` |  |
 | autoscaling.behavior | object | `{}` |  |
-| autoscaling.enabled | bool | `false` |  |
+| autoscaling.enabled | bool | `false` | Enable Horizontal Pod Autoscaling |
 | autoscaling.maxReplicas | int | `3` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
@@ -52,29 +52,29 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | basicAuth.passwordSecretKey | string | `"password"` |  |
 | basicAuth.secretName | string | `"athens-proxy-basic-auth"` |  |
 | basicAuth.usernameSecretKey | string | `"username"` |  |
-| configEnvVars | object | `{}` |  |
+| configEnvVars | object | `{}` | Extra environment variables to be passed You can add any new ones at the bottom |
 | extraLabels | object | `{}` |  |
 | gitconfig.enabled | bool | `false` |  |
 | gitconfig.secretKey | string | `"gitconfig"` |  |
 | gitconfig.secretName | string | `"athens-proxy-gitconfig"` |  |
 | goGetWorkers | int | `3` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.pullSecrets | list | `[]` |  |
+| image.pullPolicy | string | `"IfNotPresent"` | Specify a imagePullPolicy ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images |
+| image.pullSecrets | list | `[]` | Specify secrets containing credentials for pulling images |
 | image.registry | string | `"docker.io"` |  |
 | image.repository | string | `"gomods/athens"` |  |
-| image.runAsNonRoot | bool | `false` |  |
+| image.runAsNonRoot | bool | `false` | Determines if the image should run as `root` or user `athens` |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
 | ingress.enabled | bool | `false` |  |
 | ingress.hosts | string | `nil` |  |
 | ingress.tls | string | `nil` |  |
-| initContainerSecurityContext | object | `{}` |  |
+| initContainerSecurityContext | object | `{}` | Init container security context configuration |
 | intiContainerResources | object | `{}` |  |
 | jaeger.enabled | bool | `false` |  |
 | jaeger.image.repository | string | `"jaegertracing/all-in-one"` |  |
 | jaeger.image.tag | string | `"latest"` |  |
 | jaeger.type | string | `"ClusterIP"` |  |
-| jaeger.url | string | `"SET THIS ON THE COMMAND LINE"` |  |
+| jaeger.url | string | `""` |  |
 | livenessProbe.failureThreshold | int | `3` |  |
 | livenessProbe.periodSeconds | int | `10` |  |
 | livenessProbe.successThreshold | int | `1` |  |
@@ -84,19 +84,20 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | netrc.enabled | bool | `false` |  |
 | netrc.existingSecret | string | `"netrcsecret"` |  |
 | nodeSelector | object | `{}` |  |
-| priorityClassName | string | `""` |  |
-| replicaCount | int | `1` |  |
+| priorityClassName | string | `""` | Priority class for pod scheduling (see API reference: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) |
+| replicaCount | int | `1` | Sets the number of athens-proxy replicas, unless autoscaling is enabled |
 | resources | object | `{}` |  |
-| securityContext | object | `{}` |  |
-| service.annotations | object | `{}` |  |
-| service.nodePort.port | int | `30080` |  |
-| service.servicePort | int | `80` |  |
-| service.type | string | `"ClusterIP"` |  |
+| securityContext | object | `{}` | Container security context configuration (see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#securitycontext-v1-core) This will override the `image.runAsNonRoot` settings in the specified container if `runAsUser` or `runAsGroup` are set |
+| service.annotations | object | `{}` | Additional annotations to apply to the service |
+| service.nodePort | object | `{"port":30080}` | Further configuration if service is of type "NodePort" |
+| service.nodePort.port | int | `30080` | Available port in allowable range (e.g. 30000 - 32767 on minikube) |
+| service.servicePort | int | `80` | Port as exposed by the service |
+| service.type | string | `"ClusterIP"` | Type of service; valid values are "ClusterIP", "LoadBalancer", and "NodePort". "ClusterIP" is sufficient in the case when the Proxy will be used from within the cluster. To expose externally, consider a "NodePort" or "LoadBalancer" service. |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` |  |
 | sshGitServers | list | `[]` |  |
 | storage.disk.persistence.accessMode | string | `"ReadWriteOnce"` |  |
-| storage.disk.persistence.enabled | bool | `false` |  |
+| storage.disk.persistence.enabled | bool | `false` | Note if you use disk.persistence.enabled, replicaCount should be set to 1 unless your access mode is ReadWriteMany and strategy type must be Recreate |
 | storage.disk.persistence.size | string | `"4Gi"` |  |
 | storage.disk.storageRoot | string | `"/var/lib/athens"` |  |
 | storage.gcp.bucket | string | `""` |  |
@@ -114,7 +115,9 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | storage.s3.secretKey | string | `""` |  |
 | storage.s3.sessionToken | string | `""` |  |
 | storage.s3.useDefaultConfiguration | bool | `false` |  |
-| storage.type | string | `"disk"` |  |
+| storage.type | string | `"disk"` | Storage type to use. For a single instance a PV may be sufficient |
+| strategy.rollingUpdate | object | `{"maxSurge":1,"maxUnavailable":1}` | Define RollingUpdate params |
+| strategy.type | string | `"Recreate"` | Using RollingUpdate requires a shared storage |
 | tolerations | list | `[]` |  |
 | upstreamProxy.enabled | bool | `false` |  |
 | upstreamProxy.url | string | `"https://gocenter.io"` |  |
@@ -165,4 +168,12 @@ sshGitServers:
       -----END RSA PRIVATE KEY-----
     ## ssh port
     port: 22
+```
+
+## Testing
+
+Using `chart-testing` to lint, install and test the chart on a local Kubernetes (minikube, Rancher Desktop, ...)
+
+```shell
+ct lint-and-install --all
 ```

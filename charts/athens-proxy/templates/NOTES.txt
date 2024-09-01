@@ -4,12 +4,12 @@ The Athens can be accessed via URL:
 Get the Athens URL by running these commands:
 {{- end }}
 {{- if (and .Values.ingress.enabled .Values.ingress.tls) }}
-{{- range .Values.ingress.hosts }}
-  https://{{ . }}
+{{- range .Values.ingress.tls }}
+  https://{{ .host }}
 {{- end }}
 {{- else if .Values.ingress.enabled }}
 {{- range .Values.ingress.hosts }}
-  http://{{ . }}
+  http://{{ .host }}
 {{- end }}
 {{- else if contains "NodePort" .Values.service.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ template "fullname" . }})

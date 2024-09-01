@@ -8,11 +8,12 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
-  {{- if .Values.strategy }}
+  {{- with .Values.strategy }}
   strategy:
-  {{- toYaml .Values.strategy | nindent 4 }}
-    {{- if eq .Values.strategy.type "Recreate" }}
-    rollingUpdate: null
+    {{- if eq .type "Recreate" }}
+    type: Recreate
+    {{- else }}
+    {{ toYaml . | nindent 4 }}
     {{- end }}
   {{- end }}
   selector:
@@ -187,7 +188,8 @@ spec:
         {{- end }}
         {{- if .Values.jaeger.enabled }}
         - name: ATHENS_TRACE_EXPORTER_URL
-          value: {{ .Values.jaeger.url | quote }}
+          # TODO ct install : ERROR[6:52PM]: Error when uploading spans to Jaeger: Post "http://athens-proxy-ouhs8hp2vi-jaeger:14268/api/traces?format=jaeger.thrift": dial tcp 10.43.255.82:14268: i/o timeout
+          value: {{ .Values.jaeger.url | default (print "http://" (include "fullname" .) "-jaeger:14268" ) | quote }}
         - name: ATHENS_TRACE_EXPORTER
           value: "jaeger"
         {{- end }}

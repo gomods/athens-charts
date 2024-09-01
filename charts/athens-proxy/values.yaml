@@ -172,6 +172,14 @@ jaeger:
   url: ""
 
 # -- Configuration for private git servers that will provide ssh and git config to athens in a ConfigMap
+tracing:
+  # -- Set ATHENS_TRACE_EXPORTER* environment variables to point to a tracing deployment.
+  enabled: false
+  # -- Value of ATHENS_TRACE_EXPORTER_URL
+  url: ""
+  # -- Value of ATHENS_TRACE_EXPORTER
+  type: "jaeger"
+
 sshGitServers: []
   ## Private git servers over ssh
   ## to enable uncomment lines with single hash below

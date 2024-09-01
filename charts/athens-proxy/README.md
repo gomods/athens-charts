@@ -39,7 +39,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| affinity | object | `{}` |  |
+| affinity | object | `{}` | see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling |
 | annotations | object | `{}` |  |
 | autoscaling.apiVersionOverride | string | `""` |  |
 | autoscaling.behavior | object | `{}` |  |
@@ -66,10 +66,11 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
 | ingress.enabled | bool | `false` |  |
-| ingress.hosts | string | `nil` |  |
-| ingress.tls | string | `nil` |  |
+| ingress.hosts | list | `[]` | Provide an array of values for the ingress host mapping |
+| ingress.tls | list | `[]` |  |
 | initContainerSecurityContext | object | `{}` | Init container security context configuration |
 | intiContainerResources | object | `{}` |  |
+| jaeger.annotations | object | `{}` |  |
 | jaeger.enabled | bool | `false` |  |
 | jaeger.image.repository | string | `"jaegertracing/all-in-one"` |  |
 | jaeger.image.tag | string | `"latest"` |  |
@@ -83,13 +84,12 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | metrics.serviceScrape.enabled | bool | `false` |  |
 | netrc.enabled | bool | `false` |  |
 | netrc.existingSecret | string | `"netrcsecret"` |  |
-| nodeSelector | object | `{}` |  |
+| nodeSelector | object | `{}` | see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling |
 | priorityClassName | string | `""` | Priority class for pod scheduling (see API reference: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) |
 | replicaCount | int | `1` | Sets the number of athens-proxy replicas, unless autoscaling is enabled |
-| resources | object | `{}` |  |
+| resources | object | `{}` | see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources |
 | securityContext | object | `{}` | Container security context configuration (see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#securitycontext-v1-core) This will override the `image.runAsNonRoot` settings in the specified container if `runAsUser` or `runAsGroup` are set |
 | service.annotations | object | `{}` | Additional annotations to apply to the service |
-| service.nodePort | object | `{"port":30080}` | Further configuration if service is of type "NodePort" |
 | service.nodePort.port | int | `30080` | Available port in allowable range (e.g. 30000 - 32767 on minikube) |
 | service.servicePort | int | `80` | Port as exposed by the service |
 | service.type | string | `"ClusterIP"` | Type of service; valid values are "ClusterIP", "LoadBalancer", and "NodePort". "ClusterIP" is sufficient in the case when the Proxy will be used from within the cluster. To expose externally, consider a "NodePort" or "LoadBalancer" service. |
@@ -115,10 +115,11 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | storage.s3.secretKey | string | `""` |  |
 | storage.s3.sessionToken | string | `""` |  |
 | storage.s3.useDefaultConfiguration | bool | `false` |  |
-| storage.type | string | `"disk"` | Storage type to use. For a single instance a PV may be sufficient |
-| strategy.rollingUpdate | object | `{"maxSurge":1,"maxUnavailable":1}` | Define RollingUpdate params |
+| storage.type | string | `"disk"` | Storage type to use. For a single instance a PVC may be sufficient |
+| strategy.rollingUpdate.maxSurge | int | `1` |  |
+| strategy.rollingUpdate.maxUnavailable | int | `1` |  |
 | strategy.type | string | `"Recreate"` | Using RollingUpdate requires a shared storage |
-| tolerations | list | `[]` |  |
+| tolerations | list | `[]` | see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling |
 | upstreamProxy.enabled | bool | `false` |  |
 | upstreamProxy.url | string | `"https://gocenter.io"` |  |
 
@@ -172,7 +173,7 @@ sshGitServers:
 
 ## Testing
 
-Using `chart-testing` to lint, install and test the chart on a local Kubernetes (minikube, Rancher Desktop, ...)
+Using `chart-testing` to lint, install and test the chart on a local Kubernetes (Minikube, Rancher Desktop, ...)
 
 ```shell
 ct lint-and-install --all

@@ -24,7 +24,6 @@ livenessProbe:
 strategy:
   # -- Using RollingUpdate requires a shared storage
   type: Recreate
-  # -- Define RollingUpdate params
   rollingUpdate:
     maxSurge: 1
     maxUnavailable: 1
@@ -38,7 +37,7 @@ service:
   # "NodePort". "ClusterIP" is sufficient in the case when the Proxy will be used
   # from within the cluster. To expose externally, consider a "NodePort" or "LoadBalancer" service.
   type: ClusterIP
-  # -- Further configuration if service is of type "NodePort"
+  # Further configuration if service is of type "NodePort"
   nodePort:
     # -- Available port in allowable range (e.g. 30000 - 32767 on minikube)
     port: 30080
@@ -48,17 +47,20 @@ ingress:
   # Provide key/value annotations
   annotations: {}
   className: ""
-  # Provide an array of values for the ingress host mapping
-  hosts:
+  # -- Provide an array of values for the ingress host mapping
+  hosts: []
     # - host: athens-proxy.local
-    # paths:
+    #   paths:
     #   - path: /
     #     pathType: ImplementationSpecific
   # Provide a base64 encoded cert for TLS use
-  tls:
+  tls: []
+    # - hosts:
+    #   - athens-proxy.local
+    #   secretName: athens-proxy.local-tls
 
 storage:
-  # -- Storage type to use. For a single instance a PV may be sufficient
+  # -- Storage type to use. For a single instance a PVC may be sufficient
   type: disk
   disk:
     storageRoot: "/var/lib/athens"
@@ -154,6 +156,7 @@ upstreamProxy:
 
 jaeger:
   enabled: false
+  annotations: {}
   ## Type of service; valid values are "ClusterIP", "LoadBalancer", and "NodePort".
   type: ClusterIP
   image:
@@ -204,12 +207,16 @@ serviceAccount:
   annotations: {}
   # name: "athens-proxy"
 
+# -- see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
 nodeSelector: {}
 
+# -- see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
 tolerations: []
 
+# -- see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
 affinity: {}
 
+# -- see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
 resources: {}
 #  limits:
 #    cpu: 100m

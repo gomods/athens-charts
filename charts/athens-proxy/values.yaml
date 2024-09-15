@@ -115,7 +115,7 @@ initContainerSecurityContext: {}
   # runAsNonRoot: true
 
 # -- Environment variables to be passed to athens pods
-configEnvVars: {}
+configEnvVars: []
 
 # -- Extra annotations to be added to the athens pods
 annotations: {}

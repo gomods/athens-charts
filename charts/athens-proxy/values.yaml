@@ -73,7 +73,7 @@ storage:
   mongo:
     url: ""
   s3:
-    # you must set s3 bucket and region when running 'helm install'
+    # -- You must set s3 bucket and region when running 'helm install'
     region: ""
     bucket: ""
     useDefaultConfiguration: false
@@ -82,18 +82,18 @@ storage:
     secretKey: ""
     sessionToken: ""
   minio:
-    # All these variables needs to be set when configuring athens to run with minio backend
+    # -- All these variables needs to be set when configuring athens to run with minio backend
     endpoint: ""
     accessKey: ""
     secretKey: ""
     bucket: ""
   gcp:
-    # For more information, see:
+    # -- For more information, see:
     # https://docs.gomods.io/install/install-on-kubernetes/#google-cloud-storage
     # you must set gcp projectID and bucket when running 'helm install'
     projectID: ""
     bucket: ""
-    # set serviceAccount to a key which has read/write access to the GCS bucket.
+    # -- Set serviceAccount to a key which has read/write access to the GCS bucket.
     # If you are running Athens inside GCP, you will most likely not need this
     # as GCP figures out internal authentication between products for you.
     serviceAccount: ""
@@ -167,9 +167,8 @@ jaeger:
   image:
     repository: jaegertracing/all-in-one
     tag: latest
-  # you must set this on the command line when you run 'helm install'
-  # for example, you need to run 'helm install --set jaeger.url=myurl ...'
-  # url: "SET THIS ON THE COMMAND LINE"
+  # -- Specify the jaeger URL for the environment variable used by athens.
+  # With default settings, it uses the jaeger-collector-http port of the jaeger service.
   url: ""
 
 # -- Configuration for private git servers that will provide ssh and git config to athens in a ConfigMap

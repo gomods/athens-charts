@@ -1,6 +1,6 @@
 # Athens Proxy Helm Chart: athens-proxy
 
-![Version: 0.13.0](https://img.shields.io/badge/Version-0.13.0-informational?style=flat-square) ![AppVersion: v0.15.1](https://img.shields.io/badge/AppVersion-v0.15.1-informational?style=flat-square)
+![Version: 0.14.0](https://img.shields.io/badge/Version-0.14.0-informational?style=flat-square) ![AppVersion: v0.15.1](https://img.shields.io/badge/AppVersion-v0.15.1-informational?style=flat-square)
 
 ## What is Athens?
 
@@ -52,7 +52,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | basicAuth.passwordSecretKey | string | `"password"` |  |
 | basicAuth.secretName | string | `"athens-proxy-basic-auth"` | Secret name, containing the 'passwordSecretKey' and 'usernameSecretKey' |
 | basicAuth.usernameSecretKey | string | `"username"` |  |
-| configEnvVars | object | `{}` | Environment variables to be passed to athens pods |
+| configEnvVars | list | `[]` | Environment variables to be passed to athens pods |
 | extraLabels | object | `{}` | Extra labels to be added to all resources |
 | gitconfig.enabled | bool | `false` | If enabled, it expects to find git configuration in the named secret provided below. By default, gitconfig is disabled |
 | gitconfig.secretKey | string | `"gitconfig"` | Key in the kubernetes secret that contains git config data |
@@ -75,7 +75,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | jaeger.image.repository | string | `"jaegertracing/all-in-one"` |  |
 | jaeger.image.tag | string | `"latest"` |  |
 | jaeger.type | string | `"ClusterIP"` | Type of service; valid values are "ClusterIP", "LoadBalancer", and "NodePort". |
-| jaeger.url | string | `""` |  |
+| jaeger.url | string | `""` | Specify the jaeger URL for the environment variable used by athens. With default settings, it uses the jaeger-collector-http port of the jaeger service. |
 | livenessProbe.failureThreshold | int | `3` |  |
 | livenessProbe.periodSeconds | int | `10` |  |
 | livenessProbe.successThreshold | int | `1` |  |
@@ -101,17 +101,17 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | storage.disk.persistence.size | string | `"4Gi"` |  |
 | storage.disk.storageRoot | string | `"/var/lib/athens"` |  |
 | storage.gcp.bucket | string | `""` |  |
-| storage.gcp.projectID | string | `""` |  |
-| storage.gcp.serviceAccount | string | `""` |  |
+| storage.gcp.projectID | string | `""` | For more information, see: https://docs.gomods.io/install/install-on-kubernetes/#google-cloud-storage you must set gcp projectID and bucket when running 'helm install' |
+| storage.gcp.serviceAccount | string | `""` | Set serviceAccount to a key which has read/write access to the GCS bucket. If you are running Athens inside GCP, you will most likely not need this as GCP figures out internal authentication between products for you. |
 | storage.minio.accessKey | string | `""` |  |
 | storage.minio.bucket | string | `""` |  |
-| storage.minio.endpoint | string | `""` |  |
+| storage.minio.endpoint | string | `""` | All these variables needs to be set when configuring athens to run with minio backend |
 | storage.minio.secretKey | string | `""` |  |
 | storage.mongo.url | string | `""` |  |
 | storage.s3.accessKey | string | `""` |  |
 | storage.s3.bucket | string | `""` |  |
 | storage.s3.forcePathStyle | bool | `false` |  |
-| storage.s3.region | string | `""` |  |
+| storage.s3.region | string | `""` | You must set s3 bucket and region when running 'helm install' |
 | storage.s3.secretKey | string | `""` |  |
 | storage.s3.sessionToken | string | `""` |  |
 | storage.s3.useDefaultConfiguration | bool | `false` |  |

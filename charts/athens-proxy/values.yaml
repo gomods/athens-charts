@@ -12,7 +12,7 @@ image:
   pullSecrets: []
   #  - name: name-of-secret
 
-  # -- Determines if the image should run as `root` or user `athens`
+  # -- Determine if the image should run as `root` or user `athens`
   runAsNonRoot: false
 
 livenessProbe:
@@ -29,7 +29,7 @@ strategy:
     maxUnavailable: 1
 
 service:
-  # -- Additional annotations to apply to the service
+  # -- Add annotations to the service
   annotations: {}
   # -- Port as exposed by the service
   servicePort: 80
@@ -43,7 +43,7 @@ service:
     port: 30080
 
 ingress:
-  # -- Creates an Ingress resource for athens
+  # -- Create an Ingress resource for athens
   enabled: false
   annotations: {}
   className: ""
@@ -114,13 +114,13 @@ initContainerSecurityContext: {}
   # allowPrivilegeEscalation: false
   # runAsNonRoot: true
 
-# -- Environment variables to be passed to athens pods
+# -- Set environment variables to be passed to athens pods
 configEnvVars: []
 
-# -- Extra annotations to be added to the athens pods
+# -- Add extra annotations to the athens pods
 annotations: {}
 
-# -- Extra labels to be added to all resources
+# -- Add extra labels to all resources
 extraLabels: {}
 
 # HTTP basic auth
@@ -192,24 +192,24 @@ sshGitServers: []
   #     name: ssh-keys
   #     subPath: secret.id_rsa
 
-# -- Specifies the number of go workers
+# -- Specify the number of go workers
 goGetWorkers: 3
 
 metrics:
   serviceMonitor:
-    # -- Creates a ServiceMonitor for prometheus
+    # -- Create a ServiceMonitor for prometheus
     enabled: false
     # namespace: "monitoring"
     # labels:
     #   prometheus: default
 
   serviceScrape:
-    # -- Creates a VMServiceScrape for victoria
+    # -- Create a VMServiceScrape for victoria
     enabled: false
     # namespace: "monitoring"
 
 serviceAccount:
-  # -- Creates a ServiceAccount
+  # -- Create a ServiceAccount
   create: true
   annotations: {}
   # name: "athens-proxy"
@@ -223,7 +223,7 @@ tolerations: []
 # -- see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
 affinity: {}
 
-# -- Resources for athens pods.
+# -- Define resources for athens pods.
 # see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
 resources: {}
 #  limits:
@@ -233,7 +233,7 @@ resources: {}
 #    cpu: 100m
 #    memory: 64Mi
 
-# -- Resources for the init container of athens
+# -- Define resources for the init container of athens
 intiContainerResources: {}
 #  limits:
 #    cpu: 100m
@@ -243,7 +243,7 @@ intiContainerResources: {}
 #    memory: 64Mi
 
 
-# -- Sets the number of athens-proxy replicas, unless autoscaling is enabled
+# -- Set the number of athens-proxy replicas, unless autoscaling is enabled
 replicaCount: 1
 
 autoscaling:
@@ -256,7 +256,7 @@ autoscaling:
   # -- Overwrite the API version used for HPA, uses 'autoscaling/v2' by default.
   # see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/
   apiVersionOverride: ""
-  # -- Defines scaling behavior for HPA
+  # -- Define scaling behavior for HPA
   behavior: {}
     # scaleDown:
     #  stabilizationWindowSeconds: 300

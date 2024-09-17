@@ -173,7 +173,7 @@ sshGitServers:
 
 ## Testing
 
-Using `chart-testing` to lint, install and test the chart on a local Kubernetes (Minikube, Rancher Desktop, ...)
+Run `chart-testing` to lint, install and test the chart on a local Kubernetes (Minikube, Rancher Desktop etc.)
 
 ```shell
 ct lint-and-install --all

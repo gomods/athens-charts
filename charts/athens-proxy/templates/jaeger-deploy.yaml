@@ -14,9 +14,11 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "fullname" . }}-jaeger
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        release: "{{ .Release.Name }}"
+        {{- include "athens.metaLabels" (dict "appSuffix" "-jaeger" "Values" .Values "Release" .Release "Chart" .Chart) | nindent 8 }}
+      {{- if .Values.jaeger.annotations }}
+      annotations:
+        {{- toYaml .Values.jaeger.annotations | nindent 8 }}
+      {{- end }}
     spec:
       containers:
         - env:

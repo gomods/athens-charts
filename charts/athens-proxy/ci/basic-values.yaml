@@ -6,12 +6,19 @@ ingress:
       paths:
         - path: /
           pathType: ImplementationSpecific
-jaeger:
-  enabled: true
 extraLabels:
   athensIs: "awesome"
+annotations:
+  test.annotation: "athens-proxy"
+configEnvVars:
+  - name: KEY
+    value: "value"
 image:
   runAsNonRoot: true
 securityContext:
   allowPrivilegeEscalation: false
   runAsNonRoot: true
+jaeger:
+  enabled: true
+  annotations:
+    test.annotation: "jaeger"

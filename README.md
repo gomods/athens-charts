@@ -1,5 +1,6 @@
 ## Helm chart for Athens Go Proxy
 * [gomods/athens](https://github.com/gomods/athens)
+* [Chart README](charts/athens-proxy/README.md)
 * requires helm v3
 
 ```shell script

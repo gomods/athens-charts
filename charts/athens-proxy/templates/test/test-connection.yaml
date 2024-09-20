@@ -10,6 +10,25 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ['wget']
-      args: ['{{ include "fullname" . }}:{{ .Values.service.servicePort }}']
+      command: ['sh']
+      args:
+        - '-c'
+        - |
+          sleep 2;
+          wget {{ include "fullname" . }}:{{ .Values.service.servicePort }};
+          wget -O - {{ include "fullname" . }}:{{ .Values.service.servicePort }}/github.com/google/uuid/@v/v1.6.0.mod;
+    {{- if .Values.jaeger.enabled }}
+    - name: wget-jaeger
+      image: alpine
+      command: ['sh']
+      args:
+        - '-c'
+        # for query, see https://github.com/jaegertracing/jaeger/blob/f4c975cff3f61e46f9ec27d0f7449ef0ec44d067/cmd/query/app/http_handler.go#L113
+        - |
+          apk add jq;
+          sleep 5;
+          wget -O - "http://{{ include "fullname" . }}-jaeger:16686/api/services" | jq .;
+          wget -O - "http://{{ include "fullname" . }}-jaeger:16686/api/traces?service=proxy" | jq '.data|first';
+          wget -O - "http://{{ include "fullname" . }}-jaeger:14268/api/sampling?service=proxy" | jq .;
+    {{- end }}
   restartPolicy: Never

@@ -37,10 +37,10 @@ service:
   # "NodePort". "ClusterIP" is sufficient in the case when the Proxy will be used
   # from within the cluster. To expose externally, consider a "NodePort" or "LoadBalancer" service or use an "Ingress".
   type: ClusterIP
-  # Further configuration if service is of type "NodePort"
-  nodePort:
-    # -- Available port in allowable range (e.g. 30000 - 32767 on minikube)
-    port: 30080
+  # Optional configuration if service is of type "NodePort"
+  # nodePort:
+    # -- Specify the nodePort in allowable range (e.g. 30000 - 32767 on minikube)
+    # port: 30080
 
 ingress:
   # -- Create an Ingress resource for athens

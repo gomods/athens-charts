@@ -40,7 +40,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling |
-| annotations | object | `{}` | Add extra annotations to be added to the athens pods |
+| annotations | object | `{}` | Add extra annotations to the athens pods |
 | autoscaling.apiVersionOverride | string | `""` | Overwrite the API version used for HPA, uses 'autoscaling/v2' by default. see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/horizontal-pod-autoscaler-v2/ |
 | autoscaling.behavior | object | `{}` | Define scaling behavior for HPA |
 | autoscaling.enabled | bool | `false` | Enable Horizontal Pod Autoscaling |
@@ -53,7 +53,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | basicAuth.secretName | string | `"athens-proxy-basic-auth"` | Secret name, containing the 'passwordSecretKey' and 'usernameSecretKey' |
 | basicAuth.usernameSecretKey | string | `"username"` |  |
 | configEnvVars | list | `[]` | Set environment variables to be passed to athens pods |
-| extraLabels | object | `{}` | Add extra labels to be added to all resources |
+| extraLabels | object | `{}` | Add extra labels to all resources |
 | gitconfig.enabled | bool | `false` | If enabled, it expects to find git configuration in the named secret provided below. By default, gitconfig is disabled |
 | gitconfig.secretKey | string | `"gitconfig"` | Key in the kubernetes secret that contains git config data |
 | gitconfig.secretName | string | `"athens-proxy-gitconfig"` | Name of the kubernetes secret (in the same namespace as athens-proxy) that contains git config |
@@ -90,7 +90,6 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | resources | object | `{}` | Define resources for athens pods. see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources |
 | securityContext | object | `{}` | Container security context configuration. see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#securitycontext-v1-core. This will override the `image.runAsNonRoot` settings in the specified container if `runAsUser` or `runAsGroup` are set |
 | service.annotations | object | `{}` | Add annotations to the service |
-| service.nodePort.port | int | `30080` | Available port in allowable range (e.g. 30000 - 32767 on minikube) |
 | service.servicePort | int | `80` | Port as exposed by the service |
 | service.type | string | `"ClusterIP"` | Type of service; valid values are "ClusterIP", "LoadBalancer", and "NodePort". "ClusterIP" is sufficient in the case when the Proxy will be used from within the cluster. To expose externally, consider a "NodePort" or "LoadBalancer" service or use an "Ingress". |
 | serviceAccount.annotations | object | `{}` |  |

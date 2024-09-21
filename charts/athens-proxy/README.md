@@ -119,6 +119,9 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | strategy.rollingUpdate.maxUnavailable | int | `1` |  |
 | strategy.type | string | `"Recreate"` | Using RollingUpdate requires a shared storage |
 | tolerations | list | `[]` | see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling |
+| tracing.enabled | bool | `false` | Set ATHENS_TRACE_EXPORTER* environment variables to point to a tracing deployment. |
+| tracing.type | string | `"jaeger"` | Value of ATHENS_TRACE_EXPORTER, supported values are "jaeger", "datadog", and "stackdriver". |
+| tracing.url | string | `""` | Value of ATHENS_TRACE_EXPORTER_URL |
 | upstreamProxy.enabled | bool | `false` | This is where you can set the URL for the upstream module repository. If 'enabled' is set to true, Athens will try to download modules from the upstream when it doesn't find them in its own storage. Here's a non-exhaustive list of options you can set here:  - https://gocenter.io - https://proxy.golang.org |
 | upstreamProxy.url | string | `"https://gocenter.io"` |  |
 

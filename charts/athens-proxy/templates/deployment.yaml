@@ -192,6 +192,12 @@ spec:
         - name: ATHENS_TRACE_EXPORTER
           value: "jaeger"
         {{- end }}
+        {{- if and .Values.tracing.enabled (not .Values.jaeger.enabled) }}
+        - name: ATHENS_TRACE_EXPORTER_URL
+          value: {{ .Values.tracing.url }}
+        - name: ATHENS_TRACE_EXPORTER
+          value: {{ .Values.tracing.type }}
+        {{- end }}
         {{- if .Values.basicAuth.enabled }}
         - name: BASIC_AUTH_USER
           valueFrom:

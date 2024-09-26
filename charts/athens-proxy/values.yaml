@@ -171,6 +171,14 @@ jaeger:
   # With default settings, it uses the jaeger-collector-http port of the jaeger service.
   url: ""
 
+tracing:
+  # -- Set ATHENS_TRACE_EXPORTER* environment variables to point to a tracing deployment.
+  enabled: false
+  # -- Value of ATHENS_TRACE_EXPORTER_URL
+  url: ""
+  # -- Value of ATHENS_TRACE_EXPORTER, supported values are "jaeger", "datadog", and "stackdriver".
+  type: "jaeger"
+
 # -- Configuration for private git servers that will provide ssh and git config to athens in a ConfigMap
 sshGitServers: []
   ## Private git servers over ssh

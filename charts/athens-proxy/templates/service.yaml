@@ -15,7 +15,7 @@ spec:
     port: {{ .Values.service.servicePort }}
     targetPort: 3000
     protocol: TCP
-    {{- if eq .Values.service.type "NodePort" }}
+    {{- if and (eq .Values.service.type "NodePort") .Values.service.nodePort .Values.service.nodePort.port }}
     nodePort: {{ .Values.service.nodePort.port }}
     {{- end }}
   selector:

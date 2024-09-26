@@ -22,3 +22,5 @@ jaeger:
   enabled: true
   annotations:
     test.annotation: "jaeger"
+service:
+  type: "NodePort"

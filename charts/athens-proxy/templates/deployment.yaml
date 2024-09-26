@@ -247,7 +247,7 @@ spec:
         {{- range $server := .Values.sshGitServers }}
         {{- if $server.existingSecret }}
         - name: ssh-git-servers-secret-{{ $server.host | replace "." "-" }}
-          mountPath: "/root/.ssh/id_rsa-{{ $server.host }}"
+          mountPath: {{ include "home" $ }}/.ssh/id_rsa-{{ $server.host }}
           subPath: {{ $server.existingSecret.subPath | quote }}
         {{- end }}
         {{- end }}

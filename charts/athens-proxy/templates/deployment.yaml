@@ -90,9 +90,13 @@ spec:
           successThreshold: {{ .Values.livenessProbe.successThreshold }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         readinessProbe:
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           httpGet:
             path: "/readyz"
             port: 3000
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
         env:
         - name: ATHENS_GOGET_WORKERS
           value: {{ .Values.goGetWorkers | quote }}

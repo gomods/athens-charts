@@ -1,6 +1,6 @@
 # Athens Proxy Helm Chart: athens-proxy
 
-![Version: 0.14.0](https://img.shields.io/badge/Version-0.14.0-informational?style=flat-square) ![AppVersion: v0.15.1](https://img.shields.io/badge/AppVersion-v0.15.1-informational?style=flat-square)
+![Version: 0.14.4](https://img.shields.io/badge/Version-0.14.4-informational?style=flat-square) ![AppVersion: v0.15.4](https://img.shields.io/badge/AppVersion-v0.15.4-informational?style=flat-square)
 
 ## What is Athens?
 
@@ -10,7 +10,7 @@ Athens provides a repository for [Go Modules](https://github.com/golang/go/wiki/
 
 ## Prerequisites
 
-Kubernetes: `>= 1.19`
+Kubernetes: `>= 1.19-0`
 
 ## Requirements
 
@@ -86,6 +86,10 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | netrc.existingSecret | string | `"netrcsecret"` | Secret name, containing the '.netrc' file |
 | nodeSelector | object | `{}` | see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling |
 | priorityClassName | string | `""` | Priority class for pod scheduling. see API reference: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass |
+| readinessProbe.failureThreshold | int | `3` |  |
+| readinessProbe.periodSeconds | int | `10` |  |
+| readinessProbe.successThreshold | int | `1` |  |
+| readinessProbe.timeoutSeconds | int | `1` |  |
 | replicaCount | int | `1` | Set the number of athens-proxy replicas, unless autoscaling is enabled |
 | resources | object | `{}` | Define resources for athens pods. see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources |
 | securityContext | object | `{}` | Container security context configuration. see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#securitycontext-v1-core. This will override the `image.runAsNonRoot` settings in the specified container if `runAsUser` or `runAsGroup` are set |

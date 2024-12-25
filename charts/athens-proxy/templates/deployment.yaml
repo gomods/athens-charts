@@ -216,12 +216,21 @@ spec:
         {{- end }}
         ports:
         - containerPort: 3000
-        {{- if or (eq .Values.storage.type "disk") .Values.upstreamProxy.enabled .Values.netrc.enabled .Values.sshGitServers .Values.gitconfig.enabled}}
+        {{- if or (eq .Values.storage.type "disk") .Values.upstreamProxy.enabled .Values.netrc.enabled .Values.sshGitServers .Values.gitconfig.enabled .Values.config.enabled }}
         volumeMounts:
         {{- end }}
         {{- if eq .Values.storage.type "disk" }}
         - name: storage-volume
           mountPath: {{ .Values.storage.disk.storageRoot | quote }}
+        {{- end }}
+        {{- if .Values.config.enabled }}
+        - name: athens-config
+          mountPath: {{ .Values.config.path | quote }}
+          {{- if .Values.config.existingSecret }}
+          subPath: {{ .Values.config.existingSecret.subPath }}
+          {{- else }}
+          subPath: config.toml
+          {{- end }}
         {{- end }}
         {{- if .Values.upstreamProxy.enabled }}
         - name: upstream-config
@@ -270,6 +279,16 @@ spec:
           claimName: {{ include "fullname" . }}-storage
       {{- else }}
         emptyDir: {}
+      {{- end }}
+      {{- if .Values.config.enabled }}
+      - name: athens-config
+        {{- if .Values.config.existingSecret }}
+        secret:
+          secretName: {{ .Values.config.existingSecret.name }}
+        {{- else }}
+        configMap:
+          name: {{ template "fullname" . }}-config
+        {{- end }}
       {{- end }}
       {{- if .Values.upstreamProxy.enabled }}
       - name: upstream-config

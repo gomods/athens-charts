@@ -23,8 +23,11 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
 
-      - name: Check if README is missing updates
+      - name: Install helm-docs
         run: |
           go install github.com/norwoodj/helm-docs/cmd/helm-docs@latest
+
+      - name: Check if README is missing updates
+        run: |
           helm-docs
           git diff --exit-code charts/athens-proxy/README.md

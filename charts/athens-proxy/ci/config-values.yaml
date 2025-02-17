@@ -1,0 +1,32 @@
+sshGitServers:
+  - host: git1.example.com
+    user: git
+    privateKey: "invalid key"
+
+config:
+  enabled: true
+#  existingSecret:
+#    name: foo
+#    subPath: bar.toml
+  toml: |-
+    # custom config.toml enabled: {{ .Values.config.enabled }}
+    GoBinary = "go"
+    GoBinaryEnvVars = ["GOPROXY=direct"]
+    GoEnv = "development"
+    GoGetDir = ""
+    GoGetWorkers = 3
+    ProtocolWorkers = 10
+    LogLevel = "debug"
+    LogFormat = "plain"
+    DownloadMode = "sync"
+    NetworkMode = "strict"
+    Port = ":3000"
+    StorageType = "disk"
+    IndexType = "none"
+    ShutdownTimeout = 5
+    Timeout = 60
+    [Storage]
+      [Storage.Disk]
+      RootPath = "/var/lib/athens"
+    [Index]
+      # no config needed

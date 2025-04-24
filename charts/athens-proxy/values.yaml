@@ -237,6 +237,12 @@ tolerations: []
 # -- see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
 affinity: {}
 
+# -- Add extra volumes to deployment pod
+extraVolumes: {}
+
+# -- Add extra volume mounts to deployment pod primary container
+extraVolumeMounts: {}
+
 # -- Define resources for athens pods.
 # see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
 resources: {}

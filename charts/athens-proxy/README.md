@@ -1,6 +1,6 @@
 # Athens Proxy Helm Chart: athens-proxy
 
-![Version: 0.14.4](https://img.shields.io/badge/Version-0.14.4-informational?style=flat-square) ![AppVersion: v0.16.0](https://img.shields.io/badge/AppVersion-v0.16.0-informational?style=flat-square)
+![Version: 0.14.5](https://img.shields.io/badge/Version-0.14.5-informational?style=flat-square) ![AppVersion: v0.16.0](https://img.shields.io/badge/AppVersion-v0.16.0-informational?style=flat-square)
 
 ## What is Athens?
 
@@ -54,6 +54,8 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | basicAuth.usernameSecretKey | string | `"username"` |  |
 | configEnvVars | list | `[]` | Set environment variables to be passed to athens pods |
 | extraLabels | object | `{}` | Add extra labels to all resources |
+| extraVolumeMounts | object | `{}` | Add extra volume mounts to deployment pod primary container |
+| extraVolumes | object | `{}` | Add extra volumes to deployment pod |
 | gitconfig.enabled | bool | `false` | If enabled, it expects to find git configuration in the named secret provided below. By default, gitconfig is disabled |
 | gitconfig.secretKey | string | `"gitconfig"` | Key in the kubernetes secret that contains git config data |
 | gitconfig.secretName | string | `"athens-proxy-gitconfig"` | Name of the kubernetes secret (in the same namespace as athens-proxy) that contains git config |

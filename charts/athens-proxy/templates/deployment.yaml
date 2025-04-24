@@ -255,6 +255,9 @@ spec:
           subPath: {{ $server.existingSecret.subPath | quote }}
         {{- end }}
         {{- end }}
+        {{- with .Values.extraVolumeMounts }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
         {{- with .Values.securityContext }}
         securityContext:
           {{- toYaml . | nindent 10 }}
@@ -305,6 +308,9 @@ spec:
           items:
           - key: {{ .Values.gitconfig.secretKey }}
             path: "gitconfig"
+      {{- end }}
+      {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 6 }}
       {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:

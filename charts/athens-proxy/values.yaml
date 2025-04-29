@@ -115,11 +115,6 @@ securityContext: {}
   # allowPrivilegeEscalation: false
   # runAsNonRoot: true
 
-# -- Init container security context configuration
-initContainerSecurityContext: {}
-  # allowPrivilegeEscalation: false
-  # runAsNonRoot: true
-
 # -- Set environment variables to be passed to athens pods
 configEnvVars: []
 
@@ -206,6 +201,26 @@ sshGitServers: []
   #     name: ssh-keys
   #     subPath: secret.id_rsa
 
+# -- sshGitServers init container security context configuration
+initContainerSecurityContext: {}
+  # allowPrivilegeEscalation: false
+  # runAsNonRoot: true
+
+# -- sshGitServers init container resources
+intiContainerResources: {}
+#  limits:
+#    cpu: 100m
+#    memory: 64Mi
+#  requests:
+#    cpu: 100m
+#    memory: 64Mi
+
+# -- Define extra init containers for athens-proxy
+extraInitContainers: []
+  # - name: init
+  #   image: busybox:1.28
+  #   command: ['sh', '-c', "echo 'hello world'"]
+
 # -- Specify the number of go workers
 goGetWorkers: 3
 
@@ -252,16 +267,6 @@ resources: {}
 #  requests:
 #    cpu: 100m
 #    memory: 64Mi
-
-# -- Define resources for the init container of athens
-intiContainerResources: {}
-#  limits:
-#    cpu: 100m
-#    memory: 64Mi
-#  requests:
-#    cpu: 100m
-#    memory: 64Mi
-
 
 # -- Set the number of athens-proxy replicas, unless autoscaling is enabled
 replicaCount: 1

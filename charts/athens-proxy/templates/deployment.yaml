@@ -73,7 +73,7 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.intiContainerResources }}
+          {{- with (default .Values.intiContainerResources .Values.initContainerResources) }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}

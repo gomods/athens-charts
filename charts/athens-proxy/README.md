@@ -71,8 +71,9 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | ingress.enabled | bool | `false` | Create an Ingress resource for athens |
 | ingress.hosts | list | `[]` | Provide an array of values for the ingress host mapping |
 | ingress.tls | list | `[]` |  |
+| initContainerResources | object | `{}` | sshGitServers init container resources |
 | initContainerSecurityContext | object | `{}` | sshGitServers init container security context configuration |
-| intiContainerResources | object | `{}` | sshGitServers init container resources |
+| intiContainerResources | object | `{}` | sshGitServers init container resources (deprecated naming, if initContainerResources is defined, that will be used in preference to this value) |
 | jaeger.annotations | object | `{}` |  |
 | jaeger.enabled | bool | `false` | Deploy a jaeger "all-in-one" pod for tracing |
 | jaeger.image.repository | string | `"jaegertracing/all-in-one"` |  |

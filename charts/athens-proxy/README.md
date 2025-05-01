@@ -1,6 +1,6 @@
 # Athens Proxy Helm Chart: athens-proxy
 
-![Version: 0.14.5](https://img.shields.io/badge/Version-0.14.5-informational?style=flat-square) ![AppVersion: v0.16.0](https://img.shields.io/badge/AppVersion-v0.16.0-informational?style=flat-square)
+![Version: 0.14.6](https://img.shields.io/badge/Version-0.14.6-informational?style=flat-square) ![AppVersion: v0.16.0](https://img.shields.io/badge/AppVersion-v0.16.0-informational?style=flat-square)
 
 ## What is Athens?
 
@@ -53,6 +53,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | basicAuth.secretName | string | `"athens-proxy-basic-auth"` | Secret name, containing the 'passwordSecretKey' and 'usernameSecretKey' |
 | basicAuth.usernameSecretKey | string | `"username"` |  |
 | configEnvVars | list | `[]` | Set environment variables to be passed to athens pods |
+| extraInitContainers | list | `[]` | Define extra init containers for athens-proxy |
 | extraLabels | object | `{}` | Add extra labels to all resources |
 | extraVolumeMounts | object | `{}` | Add extra volume mounts to deployment pod primary container |
 | extraVolumes | object | `{}` | Add extra volumes to deployment pod |
@@ -70,8 +71,9 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | ingress.enabled | bool | `false` | Create an Ingress resource for athens |
 | ingress.hosts | list | `[]` | Provide an array of values for the ingress host mapping |
 | ingress.tls | list | `[]` |  |
-| initContainerSecurityContext | object | `{}` | Init container security context configuration |
-| intiContainerResources | object | `{}` | Define resources for the init container of athens |
+| initContainerResources | object | `{}` | sshGitServers init container resources |
+| initContainerSecurityContext | object | `{}` | sshGitServers init container security context configuration |
+| intiContainerResources | object | `{}` | sshGitServers init container resources (deprecated naming, if initContainerResources is defined, that will be used in preference to this value) |
 | jaeger.annotations | object | `{}` |  |
 | jaeger.enabled | bool | `false` | Deploy a jaeger "all-in-one" pod for tracing |
 | jaeger.image.repository | string | `"jaegertracing/all-in-one"` |  |

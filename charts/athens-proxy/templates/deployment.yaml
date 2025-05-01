@@ -45,8 +45,9 @@ spec:
       imagePullSecrets:
         {{- toYaml .Values.image.pullSecrets | nindent 8 }}
       {{- end }}
-      {{- if .Values.sshGitServers }}
+      {{- if or .Values.sshGitServers .Values.extraInitContainers }}
       initContainers:
+      {{- if .Values.sshGitServers }}
         - name: copy-key-files
           image: alpine:3.9
           command:
@@ -72,10 +73,14 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.intiContainerResources }}
+          {{- with (default .Values.intiContainerResources .Values.initContainerResources) }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+      {{- end }}
+      {{- if .Values.extraInitContainers }}
+        {{- toYaml .Values.extraInitContainers | nindent 6 }}
+      {{- end }}
       {{- end }}
       containers:
       - name: {{ include "fullname" . }}
@@ -216,7 +221,7 @@ spec:
         {{- end }}
         ports:
         - containerPort: 3000
-        {{- if or (eq .Values.storage.type "disk") .Values.upstreamProxy.enabled .Values.netrc.enabled .Values.sshGitServers .Values.gitconfig.enabled}}
+        {{- if or (eq .Values.storage.type "disk") .Values.upstreamProxy.enabled .Values.netrc.enabled .Values.sshGitServers .Values.gitconfig.enabled .Values.extraVolumeMounts }}
         volumeMounts:
         {{- end }}
         {{- if eq .Values.storage.type "disk" }}

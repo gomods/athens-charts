@@ -80,6 +80,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | jaeger.image.tag | string | `"latest"` |  |
 | jaeger.type | string | `"ClusterIP"` | Type of service; valid values are "ClusterIP", "LoadBalancer", and "NodePort". |
 | jaeger.url | string | `""` | Specify the jaeger URL for the environment variable used by athens. With default settings, it uses the jaeger-collector-http port of the jaeger service. |
+| lifecycle | object | `{}` | Container lifecycle hooks configuration. see API reference: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/ |
 | livenessProbe.failureThreshold | int | `3` |  |
 | livenessProbe.periodSeconds | int | `10` |  |
 | livenessProbe.successThreshold | int | `1` |  |
@@ -126,6 +127,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | strategy.rollingUpdate.maxSurge | int | `1` |  |
 | strategy.rollingUpdate.maxUnavailable | int | `1` |  |
 | strategy.type | string | `"Recreate"` | Using RollingUpdate requires a shared storage |
+| terminationGracePeriodSeconds | int | `30` | see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#pod-v1-core. the default value is 30 seconds. |
 | tolerations | list | `[]` | see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling |
 | tracing.enabled | bool | `false` | Set ATHENS_TRACE_EXPORTER* environment variables to point to a tracing deployment. |
 | tracing.type | string | `"jaeger"` | Value of ATHENS_TRACE_EXPORTER, supported values are "jaeger", "datadog", and "stackdriver". |

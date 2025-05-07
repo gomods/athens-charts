@@ -24,3 +24,8 @@ jaeger:
     test.annotation: "jaeger"
 service:
   type: "NodePort"
+terminationGracePeriodSeconds: 60
+lifecycle:
+  preStop:
+    exec:
+      command: ["/bin/sleep", "10"]

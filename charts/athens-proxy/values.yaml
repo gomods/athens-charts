@@ -108,12 +108,20 @@ storage:
 # see API reference: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
 priorityClassName: ""
 
+# -- see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#pod-v1-core.
+# the default value is 30 seconds.
+terminationGracePeriodSeconds: 30
+
 # -- Container security context configuration.
 # see API reference: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#securitycontext-v1-core.
 # This will override the `image.runAsNonRoot` settings in the specified container if `runAsUser` or `runAsGroup` are set
 securityContext: {}
   # allowPrivilegeEscalation: false
   # runAsNonRoot: true
+
+# -- Container lifecycle hooks configuration.
+# see API reference: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+lifecycle: {}
 
 # -- Set environment variables to be passed to athens pods
 configEnvVars: []

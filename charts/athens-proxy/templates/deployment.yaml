@@ -35,6 +35,9 @@ spec:
       {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName | quote }}
       {{- end }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- end }}
       {{- if .Values.image.runAsNonRoot }}
       securityContext:
         runAsUser: 1000
@@ -265,6 +268,10 @@ spec:
         {{- end }}
         {{- with .Values.securityContext }}
         securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.lifecycle }}
+        lifecycle:
           {{- toYaml . | nindent 10 }}
         {{- end }}
         {{- with .Values.resources }}

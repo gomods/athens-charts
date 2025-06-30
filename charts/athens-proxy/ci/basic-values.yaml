@@ -29,10 +29,3 @@ lifecycle:
   preStop:
     exec:
       command: ["/bin/sleep", "10"]
-singleFlight:
-  type: "redis"
-  redis:
-    endpoint: "host:6379"
-    password: "123456"
-    lockConfig:
-      ttl: 900

@@ -1,6 +1,6 @@
 # Athens Proxy Helm Chart: athens-proxy
 
-![Version: 0.14.7](https://img.shields.io/badge/Version-0.14.7-informational?style=flat-square) ![AppVersion: v0.16.0](https://img.shields.io/badge/AppVersion-v0.16.0-informational?style=flat-square)
+![Version: 0.14.8](https://img.shields.io/badge/Version-0.14.8-informational?style=flat-square) ![AppVersion: v0.16.0](https://img.shields.io/badge/AppVersion-v0.16.0-informational?style=flat-square)
 
 ## What is Athens?
 
@@ -103,6 +103,17 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | service.type | string | `"ClusterIP"` | Type of service; valid values are "ClusterIP", "LoadBalancer", and "NodePort". "ClusterIP" is sufficient in the case when the Proxy will be used from within the cluster. To expose externally, consider a "NodePort" or "LoadBalancer" service or use an "Ingress". |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` | Create a ServiceAccount |
+| singleFlight.etcd.endpoints | string | `""` |  |
+| singleFlight.redis.endpoint | string | `""` |  |
+| singleFlight.redis.lockConfig | object | `{}` |  |
+| singleFlight.redis.password | string | `""` |  |
+| singleFlight.redisSentinel.endpoints | string | `""` |  |
+| singleFlight.redisSentinel.lockConfig | object | `{}` |  |
+| singleFlight.redisSentinel.masterName | string | `""` |  |
+| singleFlight.redisSentinel.redisPassword | string | `""` |  |
+| singleFlight.redisSentinel.redisUsername | string | `""` |  |
+| singleFlight.redisSentinel.sentinelPassword | string | `""` |  |
+| singleFlight.type | string | `""` | SingleFlight type to use. Options are ["memory", "etcd", "redis", "redis-sentinel", "gcp", "azureblob"]. Default option is "memory" if type is not set. |
 | sshGitServers | list | `[]` | Configuration for private git servers that will provide ssh and git config to athens in a ConfigMap |
 | storage.disk.persistence.accessMode | string | `"ReadWriteOnce"` |  |
 | storage.disk.persistence.enabled | bool | `false` | Note if you use disk.persistence.enabled, replicaCount should be set to 1 unless your access mode is 'ReadWriteMany' and strategy type must be 'Recreate' |

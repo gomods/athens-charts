@@ -108,9 +108,6 @@ spec:
         env:
         - name: ATHENS_GOGET_WORKERS
           value: {{ .Values.goGetWorkers | quote }}
-        {{- if .Values.configEnvVars }}
-        {{- toYaml .Values.configEnvVars | nindent 8 }}
-        {{- end }}
         - name: ATHENS_STORAGE_TYPE
           value: {{ .Values.storage.type | quote }}
 {{- if eq .Values.storage.type "disk"}}
@@ -221,6 +218,9 @@ spec:
             secretKeyRef:
               name: {{ default "athens-proxy-basic-auth" .Values.basicAuth.secretName | quote }}
               key: {{ default "password" .Values.basicAuth.passwordSecretKey | quote }}
+        {{- end }}
+        {{- if .Values.configEnvVars }}
+        {{- toYaml .Values.configEnvVars | nindent 8 }}
         {{- end }}
         ports:
         - containerPort: 3000

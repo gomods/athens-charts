@@ -113,7 +113,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | singleFlight.redisSentinel.redisPassword | string | `""` |  |
 | singleFlight.redisSentinel.redisUsername | string | `""` |  |
 | singleFlight.redisSentinel.sentinelPassword | string | `""` |  |
-| singleFlight.type | string | `""` | SingleFlight type to use. Options are ["memory", "etcd", "redis", "redis-sentinel", "gcp", "azureblob"]. Default option is "memory" if type is not set. |
+| singleFlight.type | string | `""` | SingleFlight type to use. Options are ["memory", "etcd", "redis", "redis-sentinel", "gcp", "azureblob"]. see https://docs.gomods.io/configuration/storage/#running-multiple-athens-pointed-at-the-same-storage |
 | sshGitServers | list | `[]` | Configuration for private git servers that will provide ssh and git config to athens in a ConfigMap |
 | storage.disk.persistence.accessMode | string | `"ReadWriteOnce"` |  |
 | storage.disk.persistence.enabled | bool | `false` | Note if you use disk.persistence.enabled, replicaCount should be set to 1 unless your access mode is 'ReadWriteMany' and strategy type must be 'Recreate' |

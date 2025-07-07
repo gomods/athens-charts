@@ -107,7 +107,7 @@ storage:
 singleFlight:
   # -- SingleFlight type to use.
   # Options are ["memory", "etcd", "redis", "redis-sentinel", "gcp", "azureblob"].
-  # Default option is "memory" if type is not set.
+  # see https://docs.gomods.io/configuration/storage/#running-multiple-athens-pointed-at-the-same-storage
   type: ""
   etcd:
     endpoints: ""

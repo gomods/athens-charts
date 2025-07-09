@@ -185,6 +185,83 @@ spec:
           value: {{ .Values.storage.minio.bucket | quote }}
         {{- end }}
 {{- end }}
+        {{- if .Values.singleFlight.type }}
+        - name: ATHENS_SINGLE_FLIGHT_TYPE
+          value: {{ .Values.singleFlight.type | quote }}
+        {{- end }}
+{{- if eq .Values.singleFlight.type "etcd"}}
+        {{- if .Values.singleFlight.etcd.endpoints }}
+        - name: ATHENS_ETCD_ENDPOINTS
+          value: {{ .Values.singleFlight.etcd.endpoints | quote }}
+        {{- end }}
+{{- else if eq .Values.singleFlight.type "redis"}}
+        {{- if .Values.singleFlight.redis.endpoint }}
+        - name: ATHENS_REDIS_ENDPOINT
+          value: {{ .Values.singleFlight.redis.endpoint | quote }}
+        {{- end }}
+        {{- if .Values.singleFlight.redis.password }}
+        - name: ATHENS_REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "fullname" . }}-secret
+              key: ATHENS_SINGLE_FLIGHT_REDIS_PASSWORD
+        {{- end }}
+        {{- with .Values.singleFlight.redis.lockConfig }}
+        {{- if .ttl }}
+        - name: ATHENS_REDIS_LOCK_TTL
+          value: {{ .ttl | quote }}
+        {{- end }}
+        {{- if .timeout }}
+        - name: ATHENS_REDIS_LOCK_TIMEOUT
+          value: {{ .timeout | quote }}
+        {{- end }}
+        {{- if .maxRetries }}
+        - name: ATHENS_REDIS_LOCK_MAX_RETRIES
+          value: {{ .maxRetries | quote }}
+        {{- end }}
+        {{- end }}
+{{- else if eq .Values.singleFlight.type "redis-sentinel"}}
+        {{- if .Values.singleFlight.redisSentinel.endpoints }}
+        - name: ATHENS_REDIS_SENTINEL_ENDPOINTS
+          value: {{ .Values.singleFlight.redisSentinel.endpoints | quote }}
+        {{- end }}
+        {{- if .Values.singleFlight.redisSentinel.masterName }}
+        - name: ATHENS_REDIS_SENTINEL_MASTER_NAME
+          value: {{ .Values.singleFlight.redisSentinel.masterName | quote }}
+        {{- end }}
+        {{- if .Values.singleFlight.redisSentinel.sentinelPassword }}
+        - name: ATHENS_REDIS_SENTINEL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "fullname" . }}-secret
+              key: ATHENS_SINGLE_FLIGHT_REDIS_SENTINEL_SENTINEL_PASSWORD
+        {{- end }}
+        {{- if .Values.singleFlight.redisSentinel.redisUsername }}
+        - name: ATHENS_REDIS_USERNAME
+          value: {{ .Values.singleFlight.redisSentinel.redisUsername | quote }}
+        {{- end }}
+        {{- if .Values.singleFlight.redisSentinel.redisPassword }}
+        - name: ATHENS_REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "fullname" . }}-secret
+              key: ATHENS_SINGLE_FLIGHT_REDIS_SENTINEL_REDIS_PASSWORD
+        {{- end }}
+        {{- with .Values.singleFlight.redisSentinel.lockConfig }}
+        {{- if .ttl }}
+        - name: ATHENS_REDIS_LOCK_TTL
+          value: {{ .ttl | quote }}
+        {{- end }}
+        {{- if .timeout }}
+        - name: ATHENS_REDIS_LOCK_TIMEOUT
+          value: {{ .timeout | quote }}
+        {{- end }}
+        {{- if .maxRetries }}
+        - name: ATHENS_REDIS_LOCK_MAX_RETRIES
+          value: {{ .maxRetries | quote }}
+        {{- end }}
+        {{- end }}
+{{- end }}
         {{- if .Values.netrc.enabled }}
         - name: ATHENS_NETRC_PATH
           value: "/etc/netrc/.netrc"

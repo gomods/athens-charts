@@ -104,6 +104,31 @@ storage:
     # as GCP figures out internal authentication between products for you.
     serviceAccount: ""
 
+singleFlight:
+  # -- SingleFlight type to use.
+  # Options are ["memory", "etcd", "redis", "redis-sentinel", "gcp", "azureblob"].
+  # see https://docs.gomods.io/configuration/storage/#running-multiple-athens-pointed-at-the-same-storage
+  type: ""
+  etcd:
+    endpoints: ""
+  redis:
+    endpoint: ""
+    password: ""
+    lockConfig: {}
+    # ttl: 900
+    # timeout: 15
+    # maxRetries: 10
+  redisSentinel:
+    endpoints: ""
+    masterName: ""
+    sentinelPassword: ""
+    redisUsername: ""
+    redisPassword: ""
+    lockConfig: {}
+    # ttl: 900
+    # timeout: 15
+    # maxRetries: 10
+
 # -- Priority class for pod scheduling.
 # see API reference: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
 priorityClassName: ""

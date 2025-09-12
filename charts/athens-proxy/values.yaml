@@ -239,15 +239,6 @@ initContainerSecurityContext: {}
   # allowPrivilegeEscalation: false
   # runAsNonRoot: true
 
-# -- sshGitServers init container resources (deprecated naming, if initContainerResources is defined, that will be used in preference to this value)
-intiContainerResources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 64Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 64Mi
-
 # -- sshGitServers init container resources
 initContainerResources: {}
   # limits:

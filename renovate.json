@@ -3,11 +3,17 @@
   "extends": [
     "config:recommended"
   ],
-  "enabledManagers": ["regex", "helmv3"],
-  "regexManagers": [
+  "enabledManagers": [
+    "custom.regex",
+    "helmv3"
+  ],
+  "customManagers": [
     {
+      "customType": "regex",
       "description": "Update athens image reference in Chart.yaml",
-      "fileMatch": ["^charts\\/athens-proxy\\/Chart\\.yaml$"],
+      "managerFilePatterns": [
+        "/^charts\\/athens-proxy\\/Chart\\.yaml$/"
+      ],
       "matchStrings": [
         "appVersion:\\s+(?<currentValue>.*)"
       ],

@@ -29,3 +29,6 @@ lifecycle:
   preStop:
     exec:
       command: ["/bin/sleep", "10"]
+podDisruptionBudget:
+  enabled: true
+  minAvailable: "1"

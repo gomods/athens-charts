@@ -1,0 +1,19 @@
+{{ if .Values.podDisruptionBudget.enabled }}
+{{- if and .Values.podDisruptionBudget.minAvailable .Values.podDisruptionBudget.maxUnavailable }}
+{{- fail "You cannot provide both minAvailable and maxUnavailable on a PodDisruptionBudget." }}
+{{- end }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ template "fullname" . }}-pdb
+spec:
+  {{- if .Values.podDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
+  {{- end }}
+  {{- if .Values.podDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+{{ end }}

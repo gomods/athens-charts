@@ -334,6 +334,6 @@ podDisruptionBudget:
   enabled: false
   # Note that you cannot use both minAvailable and maxUnavailable at the same time.
   # -- Min available pods
-  # minAvailable: 1
+  # minAvailable: "1"
   # -- Max unavailable pods
-  # maxUnavailable: 1
+  # maxUnavailable: "10%"

@@ -89,9 +89,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | netrc.enabled | bool | `false` | If enabled, it expects to find the content of a valid '.netrc' file in the named secret provided below |
 | netrc.existingSecret | string | `"netrcsecret"` | Secret name, containing the '.netrc' file |
 | nodeSelector | object | `{}` | see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling |
-| podDisruptionBudget.enabled | bool | `false` | Create a PodDisruptionBudget for the deployment. see API ref https://kubernetes.io/docs/tasks/run-application/configure-pdb/ |
-| podDisruptionBudget.minAvailable | str | `""`  | minAvailable for PDB. see API ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget |
-| podDisruptionBudget.maxUnavailable | str | `""`  | maxAvailable for PDB. see API ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget |
+| podDisruptionBudget.enabled | bool | `false` |  |
 | priorityClassName | string | `""` | Priority class for pod scheduling. see API reference: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass |
 | readinessProbe.failureThreshold | int | `3` |  |
 | readinessProbe.periodSeconds | int | `10` |  |

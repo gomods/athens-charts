@@ -329,8 +329,8 @@ autoscaling:
     #     value: 2
     #     periodSeconds: 60
 
-# see https://kubernetes.io/docs/tasks/run-application/configure-pdb/
 podDisruptionBudget:
+  # -- Create a PodDisruptionBudget for the deployment. see API ref https://kubernetes.io/docs/tasks/run-application/configure-pdb/
   enabled: false
   # Note that you cannot use both minAvailable and maxUnavailable at the same time.
   # -- Min available pods

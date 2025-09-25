@@ -1,0 +1,38 @@
+templates:
+- pdb.yaml
+
+tests:
+- it: should create pdb with minAvailable at 1
+  template: pdb.yaml
+  set:
+    podDisruptionBudget.enabled: true
+    podDisruptionBudget.minAvailable: "1"
+  asserts:
+  - hasDocuments:
+      count: 1
+  - equal:
+      path: spec.minAvailable
+      value: 1
+
+- it: should create pdb with maxUnavailable at 50%
+  template: pdb.yaml
+  set:
+    podDisruptionBudget.enabled: true
+    podDisruptionBudget.maxUnavailable: "50%"
+  asserts:
+  - hasDocuments:
+      count: 1
+  - equal:
+      path: spec.maxUnavailable
+      value: "50%"
+
+- it: should fail if both minAvailable and maxUnavailable are provided
+  template: pdb.yaml
+  set:
+    podDisruptionBudget.enabled: true
+    podDisruptionBudget.maxUnavailable: "1"
+    podDisruptionBudget.minAvailable: "1"
+  asserts:
+  - failedTemplate:
+      errorPattern: |-
+        You cannot provide both minAvailable and maxUnavailable on a PodDisruptionBudget.

@@ -1,0 +1,46 @@
+templates:
+- deployment.yaml
+- config-upstream.yaml
+- config-ssh-git-servers.yaml
+- secret-ssh-git-servers.yaml
+
+tests:
+- it: should default init container image configuration correctly
+  template: deployment.yaml
+  set:
+    sshGitServers:
+    - host: git.example.com
+      path: "/asd"
+      user: git
+      privateKey: |
+        -----BEGIN RSA PRIVATE KEY-----
+        -----END RSA PRIVATE KEY-----
+      port: 22
+  asserts:
+  - hasDocuments:
+      count: 1
+  - equal:
+      path: spec.template.spec.initContainers[0].image
+      value: "docker.io/library/alpine:3.9"
+
+- it: should reflect customized init container image configuration
+  template: deployment.yaml
+  set:
+    initContainerImage:
+      registry: google.com
+      repository: hello/world
+      tag: 1.0.0
+    sshGitServers:
+    - host: git.example.com
+      path: "/asd"
+      user: git
+      privateKey: |
+        -----BEGIN RSA PRIVATE KEY-----
+        -----END RSA PRIVATE KEY-----
+      port: 22
+  asserts:
+  - hasDocuments:
+      count: 1
+  - equal:
+      path: spec.template.spec.initContainers[0].image
+      value: "google.com/hello/world:1.0.0"

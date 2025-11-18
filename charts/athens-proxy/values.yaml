@@ -234,6 +234,14 @@ sshGitServers: []
   #     name: ssh-keys
   #     subPath: secret.id_rsa
 
+initContainerImage:
+  # -- sshGitServers init container image registry
+  registry: docker.io
+  # -- sshGitServers init container image repository
+  repository: library/alpine
+  # -- sshGitServers init container image tag
+  tag: 3.9
+
 # -- sshGitServers init container security context configuration
 initContainerSecurityContext: {}
   # allowPrivilegeEscalation: false

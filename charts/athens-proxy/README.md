@@ -1,6 +1,6 @@
 # Athens Proxy Helm Chart: athens-proxy
 
-![Version: 0.15.3](https://img.shields.io/badge/Version-0.15.3-informational?style=flat-square) ![AppVersion: v0.16.1](https://img.shields.io/badge/AppVersion-v0.16.1-informational?style=flat-square)
+![Version: 0.15.4](https://img.shields.io/badge/Version-0.15.4-informational?style=flat-square) ![AppVersion: v0.16.1](https://img.shields.io/badge/AppVersion-v0.16.1-informational?style=flat-square)
 
 ## What is Athens?
 
@@ -71,6 +71,9 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | ingress.enabled | bool | `false` | Create an Ingress resource for athens |
 | ingress.hosts | list | `[]` | Provide an array of values for the ingress host mapping |
 | ingress.tls | list | `[]` |  |
+| initContainerImage.registry | string | `"docker.io"` | sshGitServers init container image registry |
+| initContainerImage.repository | string | `"library/alpine"` | sshGitServers init container image repository |
+| initContainerImage.tag | float | `3.9` | sshGitServers init container image tag |
 | initContainerResources | object | `{}` | sshGitServers init container resources |
 | initContainerSecurityContext | object | `{}` | sshGitServers init container security context configuration |
 | jaeger.annotations | object | `{}` |  |

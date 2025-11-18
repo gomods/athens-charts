@@ -52,7 +52,7 @@ spec:
       initContainers:
       {{- if .Values.sshGitServers }}
         - name: copy-key-files
-          image: alpine:3.9
+          image: "{{ .Values.initContainerImage.registry }}/{{ .Values.initContainerImage.repository }}:{{ .Values.initContainerImage.tag }}"
           command:
             - sh
             - -c

@@ -114,8 +114,6 @@ singleFlight:
   redis:
     endpoint: ""
     password: ""
-    # -- Database index to use (0-15). Defaults to 0.
-    database: 0
     # -- Name of an existing Kubernetes Secret containing the Redis password.
     # If set, the inline `password` value is ignored.
     # The secret must contain a key matching `existingSecretKey`.
@@ -132,8 +130,6 @@ singleFlight:
     sentinelPassword: ""
     redisUsername: ""
     redisPassword: ""
-    # -- Database index to use (0-15). Defaults to 0.
-    database: 0
     # -- Name of an existing Kubernetes Secret containing the sentinel password.
     # If set, the inline `sentinelPassword` value is ignored.
     existingSecret: ""

@@ -212,10 +212,6 @@ spec:
               name: {{ include "fullname" . }}-secret
               key: ATHENS_SINGLE_FLIGHT_REDIS_PASSWORD
         {{- end }}
-        {{- if .Values.singleFlight.redis.database }}
-        - name: ATHENS_REDIS_DB
-          value: {{ .Values.singleFlight.redis.database | quote }}
-        {{- end }}
         {{- with .Values.singleFlight.redis.lockConfig }}
         {{- if .ttl }}
         - name: ATHENS_REDIS_LOCK_TTL
@@ -262,10 +258,6 @@ spec:
             secretKeyRef:
               name: {{ include "fullname" . }}-secret
               key: ATHENS_SINGLE_FLIGHT_REDIS_SENTINEL_REDIS_PASSWORD
-        {{- end }}
-        {{- if .Values.singleFlight.redisSentinel.database }}
-        - name: ATHENS_REDIS_DB
-          value: {{ .Values.singleFlight.redisSentinel.database | quote }}
         {{- end }}
         {{- with .Values.singleFlight.redisSentinel.lockConfig }}
         {{- if .ttl }}

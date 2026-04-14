@@ -199,7 +199,13 @@ spec:
         - name: ATHENS_REDIS_ENDPOINT
           value: {{ .Values.singleFlight.redis.endpoint | quote }}
         {{- end }}
-        {{- if .Values.singleFlight.redis.password }}
+        {{- if .Values.singleFlight.redis.existingSecret }}
+        - name: ATHENS_REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.singleFlight.redis.existingSecret | quote }}
+              key: {{ .Values.singleFlight.redis.existingSecretKey | quote }}
+        {{- else if .Values.singleFlight.redis.password }}
         - name: ATHENS_REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -229,7 +235,13 @@ spec:
         - name: ATHENS_REDIS_SENTINEL_MASTER_NAME
           value: {{ .Values.singleFlight.redisSentinel.masterName | quote }}
         {{- end }}
-        {{- if .Values.singleFlight.redisSentinel.sentinelPassword }}
+        {{- if .Values.singleFlight.redisSentinel.existingSecret }}
+        - name: ATHENS_REDIS_SENTINEL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.singleFlight.redisSentinel.existingSecret | quote }}
+              key: {{ .Values.singleFlight.redisSentinel.existingSecretKey | quote }}
+        {{- else if .Values.singleFlight.redisSentinel.sentinelPassword }}
         - name: ATHENS_REDIS_SENTINEL_PASSWORD
           valueFrom:
             secretKeyRef:

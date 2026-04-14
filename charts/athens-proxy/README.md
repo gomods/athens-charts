@@ -107,10 +107,16 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` | Create a ServiceAccount |
 | singleFlight.etcd.endpoints | string | `""` |  |
+| singleFlight.redis.database | int | `0` | Database index to use (0-15). Defaults to 0. |
 | singleFlight.redis.endpoint | string | `""` |  |
+| singleFlight.redis.existingSecret | string | `""` | Name of an existing Kubernetes Secret containing the Redis password. If set, the inline `password` value is ignored. The secret must contain a key matching `existingSecretKey`. |
+| singleFlight.redis.existingSecretKey | string | `"ATHENS_REDIS_PASSWORD"` | Key within the existing secret that holds the Redis password. |
 | singleFlight.redis.lockConfig | object | `{}` |  |
 | singleFlight.redis.password | string | `""` |  |
+| singleFlight.redisSentinel.database | int | `0` | Database index to use (0-15). Defaults to 0. |
 | singleFlight.redisSentinel.endpoints | string | `""` |  |
+| singleFlight.redisSentinel.existingSecret | string | `""` | Name of an existing Kubernetes Secret containing the sentinel password. If set, the inline `sentinelPassword` value is ignored. |
+| singleFlight.redisSentinel.existingSecretKey | string | `"ATHENS_REDIS_SENTINEL_PASSWORD"` | Key within the existing secret that holds the sentinel password. |
 | singleFlight.redisSentinel.lockConfig | object | `{}` |  |
 | singleFlight.redisSentinel.masterName | string | `""` |  |
 | singleFlight.redisSentinel.redisPassword | string | `""` |  |

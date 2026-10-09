@@ -44,6 +44,10 @@ spec:
         runAsGroup: 1000
       {{- end }}
       serviceAccountName: {{ include "serviceAccountName" . | quote }}
+      {{- with .Values.hostAliases }}
+      hostAliases:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if .Values.image.pullSecrets }}
       imagePullSecrets:
         {{- toYaml .Values.image.pullSecrets | nindent 8 }}
@@ -367,6 +371,9 @@ spec:
         resources:
           {{- toYaml . | nindent 10 }}
         {{- end }}
+      {{- with .Values.extraContainers }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
       volumes:
       - name: storage-volume
       {{- if .Values.storage.disk.persistence.enabled }}

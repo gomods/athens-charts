@@ -1,0 +1,65 @@
+templates:
+- deployment.yaml
+- config-upstream.yaml
+- config-ssh-git-servers.yaml
+- secret-ssh-git-servers.yaml
+
+tests:
+- it: should not set hostAliases by default
+  template: deployment.yaml
+  asserts:
+  - hasDocuments:
+      count: 1
+  - notExists:
+      path: spec.template.spec.hostAliases
+
+- it: should render configured hostAliases
+  template: deployment.yaml
+  set:
+    hostAliases:
+    - ip: "10.0.0.1"
+      hostnames:
+      - goproxy.internal
+      - goproxy.example.com
+  asserts:
+  - hasDocuments:
+      count: 1
+  - equal:
+      path: spec.template.spec.hostAliases
+      value:
+      - ip: "10.0.0.1"
+        hostnames:
+        - goproxy.internal
+        - goproxy.example.com
+
+- it: should only render the athens-proxy container by default
+  template: deployment.yaml
+  asserts:
+  - hasDocuments:
+      count: 1
+  - lengthEqual:
+      path: spec.template.spec.containers
+      count: 1
+
+- it: should append extraContainers after the athens-proxy container
+  template: deployment.yaml
+  set:
+    extraContainers:
+    - name: sidecar
+      image: busybox:1.28
+      command: ['sh', '-c', "sleep infinity"]
+  asserts:
+  - hasDocuments:
+      count: 1
+  - lengthEqual:
+      path: spec.template.spec.containers
+      count: 2
+  - equal:
+      path: spec.template.spec.containers[0].name
+      value: RELEASE-NAME-athens-proxy
+  - equal:
+      path: spec.template.spec.containers[1]
+      value:
+        name: sidecar
+        image: busybox:1.28
+        command: ['sh', '-c', "sleep infinity"]

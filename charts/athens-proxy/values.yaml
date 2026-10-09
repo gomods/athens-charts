@@ -273,6 +273,18 @@ extraInitContainers: []
   #   image: busybox:1.28
   #   command: ['sh', '-c', "echo 'hello world'"]
 
+# -- Define extra containers (e.g. sidecars) for athens-proxy
+extraContainers: []
+  # - name: sidecar
+  #   image: busybox:1.28
+  #   command: ['sh', '-c', "sleep infinity"]
+
+# -- Add entries to the pod's /etc/hosts, see https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/
+hostAliases: []
+  # - ip: "10.0.0.1"
+  #   hostnames:
+  #     - "goproxy.internal"
+
 # -- Specify the number of go workers
 goGetWorkers: 3
 

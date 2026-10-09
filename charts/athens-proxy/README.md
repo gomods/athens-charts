@@ -53,6 +53,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | basicAuth.secretName | string | `"athens-proxy-basic-auth"` | Secret name, containing the 'passwordSecretKey' and 'usernameSecretKey' |
 | basicAuth.usernameSecretKey | string | `"username"` |  |
 | configEnvVars | list | `[]` | Set environment variables to be passed to athens pods |
+| extraContainers | list | `[]` | Define extra containers (e.g. sidecars) for athens-proxy |
 | extraInitContainers | list | `[]` | Define extra init containers for athens-proxy |
 | extraLabels | object | `{}` | Add extra labels to all resources |
 | extraVolumeMounts | object | `{}` | Add extra volume mounts to deployment pod primary container |
@@ -61,6 +62,7 @@ This will deploy a single Athens instance in the `athens` namespace with `disk` 
 | gitconfig.secretKey | string | `"gitconfig"` | Key in the kubernetes secret that contains git config data |
 | gitconfig.secretName | string | `"athens-proxy-gitconfig"` | Name of the kubernetes secret (in the same namespace as athens-proxy) that contains git config |
 | goGetWorkers | int | `3` | Specify the number of go workers |
+| hostAliases | list | `[]` | Add entries to the pod's /etc/hosts, see https://kubernetes.io/docs/tasks/network/customize-hosts-file-for-pods/ |
 | image.pullPolicy | string | `"IfNotPresent"` | Specify a imagePullPolicy. see http://kubernetes.io/docs/user-guide/images/#pre-pulling-images |
 | image.pullSecrets | list | `[]` | Specify secrets containing credentials for pulling images |
 | image.registry | string | `"docker.io"` |  |
